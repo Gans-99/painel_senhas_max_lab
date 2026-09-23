@@ -1,0 +1,562 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max Lab | Painel de Senhas</title>
+
+<style>
+:root {
+  --fundo: #0B192C;
+  --fundo-card: #263548;
+  --laranja: #F58220;
+  --laranja-claro: #FF9A42;
+  --cinza: #D1D5DB;
+  --cinza-secundario: #AEB8C5;
+  --branco: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--fundo);
+  color: var(--branco);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+.painel {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 4vw;
+  text-align: center;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 2px solid #52647a;
+  padding-bottom: 20px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--laranja);
+  font-size: clamp(27px, 3.5vw, 48px);
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo-lab {
+  color: var(--branco);
+  font-weight: 400;
+}
+
+.logo-simbolo {
+  color: var(--laranja);
+  font-size: 1.2em;
+}
+
+.subtitulo {
+  border: 2px solid var(--laranja);
+  border-radius: 40px;
+  padding: 12px 25px;
+  color: var(--cinza);
+  font-size: clamp(13px, 1.6vw, 22px);
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.conteudo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+  min-height: 0;
+}
+
+.rotulo {
+  font-size: clamp(18px, 2.5vw, 34px);
+  color: var(--cinza);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+
+.senha {
+  font-size: clamp(85px, 19vw, 230px);
+  font-weight: 900;
+  line-height: 1.05;
+  margin: 15px 0;
+  color: var(--laranja);
+  text-shadow: 0 0 35px #F5822044;
+  overflow-wrap: anywhere;
+}
+
+.nome {
+  font-size: clamp(28px, 4.5vw, 62px);
+  font-weight: 900;
+  margin: 8px 0 25px;
+  color: var(--branco);
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}
+
+.guiche {
+  display: inline-block;
+  background: var(--laranja);
+  color: var(--branco);
+  font-size: clamp(25px, 4vw, 55px);
+  font-weight: 900;
+  padding: 16px 55px;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px #F5822044;
+}
+
+.aguardando {
+  font-size: clamp(30px, 4.5vw, 60px);
+  color: var(--cinza);
+  font-weight: bold;
+}
+
+.historico {
+  border-top: 2px solid #52647a;
+  padding-top: 20px;
+}
+
+.titulo-historico {
+  font-size: clamp(15px, 1.8vw, 23px);
+  color: var(--cinza);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.lista-historico {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.item-historico {
+  background: var(--fundo-card);
+  border: 1px solid #64748b;
+  border-radius: 18px;
+  padding: 15px 10px;
+  box-shadow: 0 4px 15px #00000020;
+  min-width: 0;
+}
+
+.historico-senha {
+  font-size: clamp(26px, 4vw, 52px);
+  font-weight: 900;
+  color: var(--laranja);
+  overflow-wrap: anywhere;
+}
+
+.historico-guiche {
+  color: var(--cinza);
+  font-size: clamp(14px, 2vw, 24px);
+  font-weight: bold;
+  margin-top: 7px;
+}
+
+.rodape {
+  border-top: 2px solid #52647a;
+  margin-top: 22px;
+  padding-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.controles {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--cinza-secundario);
+  font-size: clamp(12px, 1.5vw, 19px);
+}
+
+#ativarSom {
+  border: 2px solid var(--laranja);
+  border-radius: 40px;
+  background: transparent;
+  color: var(--branco);
+  padding: 12px 25px;
+  font-size: clamp(14px, 1.7vw, 21px);
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#ativarSom:hover {
+  background: var(--laranja);
+}
+
+.marca-rodape {
+  text-align: right;
+  color: var(--cinza-secundario);
+  font-size: clamp(12px, 1.4vw, 18px);
+}
+
+.marca-rodape strong {
+  display: block;
+  color: var(--laranja);
+  font-size: clamp(18px, 2.2vw, 29px);
+  letter-spacing: 1px;
+}
+
+.marca-rodape strong span {
+  color: var(--branco);
+  font-weight: 400;
+}
+
+@keyframes duasPiscadas {
+  0%, 100% { opacity: 1; }
+  15%, 35% { opacity: .12; }
+  25%, 45% { opacity: 1; }
+  55%, 75% { opacity: .12; }
+  65%, 85% { opacity: 1; }
+}
+
+.piscando {
+  animation: duasPiscadas .9s ease-in-out;
+}
+
+@media (max-width: 650px) {
+  body {
+    overflow: auto;
+  }
+
+  .painel {
+    padding: 15px 12px;
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  .subtitulo {
+    padding: 9px 16px;
+  }
+
+  .conteudo {
+    padding: 35px 0;
+  }
+
+  .senha {
+    font-size: clamp(70px, 20vw, 130px);
+  }
+
+  .nome {
+    font-size: clamp(24px, 7vw, 38px);
+  }
+
+  .guiche {
+    padding: 13px 28px;
+  }
+
+  .lista-historico {
+    gap: 7px;
+  }
+
+  .item-historico {
+    padding: 12px 4px;
+    border-radius: 10px;
+  }
+
+  .rodape {
+    flex-direction: column;
+  }
+
+  .controles {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .marca-rodape {
+    text-align: center;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="painel" id="painel">
+
+  <header>
+    <div class="logo">
+      <span class="logo-simbolo">✚</span>
+      <span>MAX <span class="logo-lab">LAB</span></span>
+    </div>
+
+    <div class="subtitulo">PAINEL DE ATENDIMENTO</div>
+  </header>
+
+  <section class="conteudo" aria-live="polite">
+    <div class="rotulo">Última senha chamada</div>
+
+    <div class="senha" id="senha">---</div>
+
+    <div class="nome" id="nome">
+      Aguardando próxima chamada
+    </div>
+
+    <div class="guiche" id="guiche">AGUARDE</div>
+  </section>
+
+  <section class="historico">
+    <div class="titulo-historico">Últimas senhas chamadas</div>
+
+    <div class="lista-historico" id="historico">
+      <div class="item-historico">
+        <div class="historico-senha">---</div>
+        <div class="historico-guiche">Guichê --</div>
+      </div>
+
+      <div class="item-historico">
+        <div class="historico-senha">---</div>
+        <div class="historico-guiche">Guichê --</div>
+      </div>
+
+      <div class="item-historico">
+        <div class="historico-senha">---</div>
+        <div class="historico-guiche">Guichê --</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <div class="controles">
+      <button id="ativarSom">♫ Ativar som</button>
+      <span id="avisoSom">Clique para habilitar o áudio da TV.</span>
+    </div>
+
+    <div class="marca-rodape">
+      <strong>MAX <span>LAB</span></strong>
+      Cuidando de você
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORAGE_KEY = "maxlab_senhas_v1";
+
+  const senhaEl = document.getElementById("senha");
+  const nomeEl = document.getElementById("nome");
+  const guicheEl = document.getElementById("guiche");
+  const historicoEl = document.getElementById("historico");
+  const painel = document.getElementById("painel");
+  const avisoSom = document.getElementById("avisoSom");
+  const botaoSom = document.getElementById("ativarSom");
+
+  let canal = null;
+  let audioContext = null;
+  let somAtivo = false;
+  let ultimoEvento = "";
+
+  try {
+    canal = new BroadcastChannel("maxlab_senhas");
+  } catch (erro) {
+    console.warn("BroadcastChannel indisponível.", erro);
+  }
+
+  function lerEstado() {
+    try {
+      const salvo = localStorage.getItem(STORAGE_KEY);
+
+      if (!salvo) return null;
+
+      return JSON.parse(salvo);
+    } catch (erro) {
+      console.error("Erro ao ler estado.", erro);
+      return null;
+    }
+  }
+
+  function renderizarHistorico(chamadas) {
+    historicoEl.replaceChildren();
+
+    for (let i = 0; i < 3; i++) {
+      const chamada = chamadas[i];
+
+      const item = document.createElement("div");
+      item.className = "item-historico";
+
+      const senha = document.createElement("div");
+      senha.className = "historico-senha";
+      senha.textContent = chamada ? chamada.senha : "---";
+
+      const guiche = document.createElement("div");
+      guiche.className = "historico-guiche";
+      guiche.textContent = chamada
+        ? `Guichê ${chamada.guiche}`
+        : "Guichê --";
+
+      item.append(senha, guiche);
+      historicoEl.appendChild(item);
+    }
+  }
+
+  function tocarGongo() {
+    if (!somAtivo || !audioContext) return;
+
+    const agora = audioContext.currentTime;
+
+    // Dois tons curtos produzidos pelo próprio navegador.
+    [0, 0.38].forEach((atraso, indice) => {
+      const oscilador = audioContext.createOscillator();
+      const ganho = audioContext.createGain();
+
+      oscilador.type = "sine";
+
+      oscilador.frequency.setValueAtTime(
+        indice === 0 ? 880 : 660,
+        agora + atraso
+      );
+
+      ganho.gain.setValueAtTime(
+        0.0001,
+        agora + atraso
+      );
+
+      ganho.gain.exponentialRampToValueAtTime(
+        0.35,
+        agora + atraso + 0.03
+      );
+
+      ganho.gain.exponentialRampToValueAtTime(
+        0.0001,
+        agora + atraso + 0.28
+      );
+
+      oscilador.connect(ganho);
+      ganho.connect(audioContext.destination);
+
+      oscilador.start(agora + atraso);
+      oscilador.stop(agora + atraso + 0.3);
+    });
+  }
+
+  function efeitoChamada() {
+    painel.classList.remove("piscando");
+
+    // Reinicia a animação para executar as duas piscadas.
+    void painel.offsetWidth;
+
+    painel.classList.add("piscando");
+
+    tocarGongo();
+  }
+
+  function renderizar(estado, tipoEvento = "") {
+    if (!estado) return;
+
+    const atual = estado.atual;
+
+    if (atual) {
+      senhaEl.textContent = atual.senha || "---";
+      nomeEl.textContent = atual.nome || "";
+      guicheEl.textContent = `GUICHÊ ${atual.guiche}`;
+
+      // O guichê utiliza laranja para ambas as categorias.
+      guicheEl.style.background = "#F58220";
+    } else {
+      senhaEl.textContent = "---";
+      nomeEl.textContent = "Aguardando próxima chamada";
+      guicheEl.textContent = "AGUARDE";
+      guicheEl.style.background = "#F58220";
+    }
+
+    renderizarHistorico(estado.chamadas || []);
+
+    if (
+      atual &&
+      (tipoEvento === "chamada" || tipoEvento === "rechamada")
+    ) {
+      const identificador = tipoEvento === "rechamada"
+        ? `${atual.senha}-${atual.guiche}-${atual.rechamadaEm || ""}`
+        : `${atual.senha}-${atual.guiche}-${atual.chamadaEm || ""}`;
+
+      if (identificador !== ultimoEvento) {
+        ultimoEvento = identificador;
+        efeitoChamada();
+      }
+    }
+
+    if (tipoEvento === "reset") {
+      ultimoEvento = "";
+    }
+  }
+
+  botaoSom.addEventListener("click", async () => {
+    try {
+      const AudioCtx =
+        window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioCtx) {
+        avisoSom.textContent =
+          "Áudio não suportado neste navegador.";
+        return;
+      }
+
+      if (!audioContext) {
+        audioContext = new AudioCtx();
+      }
+
+      if (audioContext.state === "suspended") {
+        await audioContext.resume();
+      }
+
+      somAtivo = true;
+      avisoSom.textContent = "Som ativado.";
+
+      tocarGongo();
+    } catch (erro) {
+      avisoSom.textContent =
+        "Não foi possível ativar o áudio.";
+
+      console.error("Erro ao ativar áudio.", erro);
+    }
+  });
+
+  if (canal) {
+    canal.onmessage = evento => {
+      const dados = evento.data;
+
+      if (dados && dados.estado) {
+        renderizar(dados.estado, dados.tipo);
+      }
+    };
+  }
+
+  window.addEventListener("storage", evento => {
+    if (evento.key === STORAGE_KEY) {
+      renderizar(lerEstado());
+    }
+  });
+
+  renderizar(lerEstado());
+})();
+</script>
+</body>
+</html>

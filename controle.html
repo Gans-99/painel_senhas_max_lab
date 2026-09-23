@@ -1,0 +1,760 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Max Lab | Controle de Atendimento</title>
+
+<style>
+:root {
+  --laranja: #F58220;
+  --laranja-escuro: #d96b0b;
+  --azul: #1677d2;
+  --vermelho: #dc3545;
+  --fundo: #f2f5fa;
+  --texto: #172b4d;
+  --verde: #16834a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  font-family: Arial, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+}
+
+.painel {
+  max-width: 1200px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.logo {
+  color: var(--laranja);
+  font-weight: 900;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 13px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: opacity .15s, transform .15s;
+}
+
+button:active:not(:disabled) {
+  transform: scale(.97);
+}
+
+button:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+.chamada {
+  background: white;
+  padding: 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 4px 18px #172b4d0b;
+  margin-bottom: 25px;
+}
+
+#chamar {
+  width: 100%;
+  max-width: 500px;
+  padding: 23px;
+  background: var(--laranja);
+  color: white;
+  font-size: 25px;
+}
+
+#chamar:hover:not(:disabled) {
+  background: var(--laranja-escuro);
+}
+
+#rechamar {
+  margin-top: 12px;
+  background: #e8edf5;
+  color: var(--texto);
+}
+
+.direcionamento {
+  display: none;
+  margin-top: 22px;
+  padding: 20px;
+  border: 2px solid #dbe3ef;
+  border-radius: 14px;
+}
+
+.direcionamento h2 {
+  overflow-wrap: anywhere;
+}
+
+.guiches {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.guiches button {
+  background: var(--laranja);
+  color: white;
+  min-width: 130px;
+}
+
+.contadores {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.contador {
+  background: white;
+  padding: 15px 25px;
+  border-radius: 12px;
+  font-size: 18px;
+  box-shadow: 0 4px 18px #172b4d0b;
+}
+
+.filas {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+.coluna {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px #172b4d0b;
+}
+
+.titulo-fila {
+  padding: 20px;
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.titulo-G {
+  background: var(--azul);
+}
+
+.titulo-P {
+  background: var(--vermelho);
+}
+
+.lista {
+  padding: 12px;
+  min-height: 130px;
+}
+
+.paciente {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  border: 1px solid #e3e9f2;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+}
+
+.info-paciente {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+
+.nome-paciente {
+  font-size: 16px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.senha {
+  font-weight: 900;
+  font-size: 19px;
+  white-space: nowrap;
+}
+
+.acoes-paciente {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.btn-atendido {
+  background: var(--verde);
+  color: white;
+  padding: 10px 13px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.btn-atendido:hover {
+  background: #106638;
+}
+
+.vazio {
+  padding: 20px;
+  color: #8190a5;
+  text-align: center;
+}
+
+.status {
+  color: #64748b;
+  font-size: 14px;
+  margin-top: 10px;
+  min-height: 18px;
+}
+
+.rodape {
+  margin-top: 35px;
+  text-align: center;
+}
+
+#resetar {
+  background: transparent;
+  color: #8994a5;
+  font-size: 13px;
+}
+
+#resetar:hover {
+  color: var(--vermelho);
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 14px;
+  }
+
+  .filas {
+    grid-template-columns: 1fr;
+  }
+
+  .paciente {
+    padding: 11px;
+    gap: 8px;
+  }
+
+  .btn-atendido {
+    padding: 9px;
+    font-size: 12px;
+  }
+
+  .nome-paciente {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .paciente {
+    flex-wrap: wrap;
+  }
+
+  .acoes-paciente {
+    width: 100%;
+  }
+
+  .btn-atendido {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="painel">
+
+  <header>
+    <h1><span class="logo">MAX LAB</span> | Atendimento</h1>
+    <strong>Controle de Senhas</strong>
+  </header>
+
+  <section class="contadores">
+    <div class="contador">
+      Normais aguardando:
+      <strong id="totalG">0</strong>
+    </div>
+
+    <div class="contador">
+      Preferenciais aguardando:
+      <strong id="totalP">0</strong>
+    </div>
+
+    <div class="contador">
+      Total aguardando:
+      <strong id="totalGeral">0</strong>
+    </div>
+  </section>
+
+  <section class="chamada">
+    <button id="chamar">CHAMAR PRÓXIMO</button>
+    <br>
+    <button id="rechamar">Rechamar Atual</button>
+
+    <div class="direcionamento" id="direcionamento">
+      <h2 id="textoDirecionamento"></h2>
+      <p>Direcionar paciente para qual guichê?</p>
+
+      <div class="guiches">
+        <button type="button" data-guiche="1">Guichê 1</button>
+        <button type="button" data-guiche="2">Guichê 2</button>
+        <button type="button" data-guiche="3">Guichê 3</button>
+      </div>
+    </div>
+
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="filas">
+
+    <div class="coluna">
+      <div class="titulo-fila titulo-G">Fila Normal (G)</div>
+      <div class="lista" id="filaG"></div>
+    </div>
+
+    <div class="coluna">
+      <div class="titulo-fila titulo-P">Fila Preferencial (P)</div>
+      <div class="lista" id="filaP"></div>
+    </div>
+
+  </section>
+
+  <footer class="rodape">
+    <button type="button" id="resetar">Resetar Todas as Filas</button>
+  </footer>
+
+</div>
+
+<script>
+(() => {
+  "use strict";
+
+  const STORAGE_KEY = "maxlab_senhas_v1";
+  const CHANNEL_NAME = "maxlab_senhas";
+
+  const filaG = document.getElementById("filaG");
+  const filaP = document.getElementById("filaP");
+  const chamar = document.getElementById("chamar");
+  const rechamar = document.getElementById("rechamar");
+  const direcionamento = document.getElementById("direcionamento");
+  const textoDirecionamento = document.getElementById("textoDirecionamento");
+  const status = document.getElementById("status");
+
+  let pendente = null;
+  let canal = null;
+
+  try {
+    canal = new BroadcastChannel(CHANNEL_NAME);
+  } catch (erro) {
+    console.warn("BroadcastChannel indisponível.", erro);
+  }
+
+  function estadoInicial() {
+    return {
+      filas: {
+        G: [],
+        P: []
+      },
+      contadores: {
+        G: 0,
+        P: 0
+      },
+      chamadas: [],
+      atual: null,
+
+      // Posição atual no ciclo: G, G, P.
+      sequencia: 0
+    };
+  }
+
+  function lerEstado() {
+    try {
+      const salvo = localStorage.getItem(STORAGE_KEY);
+
+      if (!salvo) {
+        return estadoInicial();
+      }
+
+      const dados = JSON.parse(salvo);
+
+      if (!dados.filas || !dados.contadores) {
+        return estadoInicial();
+      }
+
+      dados.filas.G ||= [];
+      dados.filas.P ||= [];
+
+      dados.contadores.G ||= 0;
+      dados.contadores.P ||= 0;
+
+      dados.chamadas ||= [];
+      dados.sequencia ||= 0;
+
+      return dados;
+    } catch (erro) {
+      console.error("Erro ao ler os dados:", erro);
+      return estadoInicial();
+    }
+  }
+
+  function salvarEstado(estado, tipo = "atualizacao") {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+
+    if (canal) {
+      canal.postMessage({
+        tipo,
+        estado
+      });
+    }
+  }
+
+  function criarPaciente(paciente, cor) {
+    const item = document.createElement("div");
+    item.className = "paciente";
+
+    const informacoes = document.createElement("div");
+    informacoes.className = "info-paciente";
+
+    const nome = document.createElement("span");
+    nome.className = "nome-paciente";
+    nome.textContent = paciente.nome;
+
+    const senha = document.createElement("span");
+    senha.className = "senha";
+    senha.style.color = cor;
+    senha.textContent = paciente.senha;
+
+    informacoes.append(nome, senha);
+
+    const acoes = document.createElement("div");
+    acoes.className = "acoes-paciente";
+
+    const botaoAtendido = document.createElement("button");
+    botaoAtendido.className = "btn-atendido";
+    botaoAtendido.type = "button";
+    botaoAtendido.textContent = "✓ Atendido";
+
+    botaoAtendido.setAttribute(
+      "aria-label",
+      `Confirmar atendimento de ${paciente.nome}, senha ${paciente.senha}`
+    );
+
+    botaoAtendido.addEventListener("click", () => {
+      confirmarAtendimento(paciente.tipo, paciente.senha);
+    });
+
+    acoes.appendChild(botaoAtendido);
+    item.append(informacoes, acoes);
+
+    return item;
+  }
+
+  function desenharFila(elemento, pacientes, cor) {
+    elemento.replaceChildren();
+
+    if (!pacientes.length) {
+      const vazio = document.createElement("div");
+      vazio.className = "vazio";
+      vazio.textContent = "Nenhum paciente aguardando.";
+
+      elemento.appendChild(vazio);
+      return;
+    }
+
+    pacientes.forEach(paciente => {
+      elemento.appendChild(criarPaciente(paciente, cor));
+    });
+  }
+
+  function renderizar() {
+    const estado = lerEstado();
+
+    desenharFila(filaG, estado.filas.G, "#1677d2");
+    desenharFila(filaP, estado.filas.P, "#dc3545");
+
+    document.getElementById("totalG").textContent =
+      estado.filas.G.length;
+
+    document.getElementById("totalP").textContent =
+      estado.filas.P.length;
+
+    document.getElementById("totalGeral").textContent =
+      estado.filas.G.length + estado.filas.P.length;
+
+    chamar.disabled = Boolean(pendente) ||
+      (!estado.filas.G.length && !estado.filas.P.length);
+
+    rechamar.disabled = !estado.atual;
+
+    if (pendente) {
+      direcionamento.style.display = "block";
+
+      textoDirecionamento.textContent =
+        `Direcionar ${pendente.senha} - ${pendente.nome}`;
+    } else {
+      direcionamento.style.display = "none";
+      textoDirecionamento.textContent = "";
+    }
+  }
+
+  // Confirma o atendimento de um paciente que está aguardando.
+  function confirmarAtendimento(tipo, senha) {
+    if (pendente) {
+      status.textContent =
+        "Conclua o direcionamento da chamada atual antes de confirmar outro atendimento.";
+      return;
+    }
+
+    const confirmar = window.confirm(
+      `Confirmar que o paciente da senha ${senha} já foi atendido?`
+    );
+
+    if (!confirmar) return;
+
+    const estado = lerEstado();
+
+    const indice = estado.filas[tipo].findIndex(
+      paciente => paciente.senha === senha
+    );
+
+    if (indice === -1) {
+      status.textContent =
+        `A senha ${senha} não está mais na fila de espera.`;
+
+      renderizar();
+      return;
+    }
+
+    const paciente = estado.filas[tipo][indice];
+
+    // Remove somente o paciente confirmado.
+    estado.filas[tipo].splice(indice, 1);
+
+    salvarEstado(estado, "atualizacao");
+
+    status.textContent =
+      `Atendimento confirmado: ${paciente.senha} - ${paciente.nome}.`;
+
+    renderizar();
+  }
+
+  /*
+   * Regra de prioridade:
+   * G -> G -> P -> G -> G -> P ...
+   *
+   * Quando as duas filas têm pacientes, a próxima categoria
+   * é determinada pela posição no ciclo.
+   *
+   * Se uma fila estiver vazia, utiliza-se a fila disponível.
+   * Chamadas feitas nessa situação não avançam o ciclo.
+   */
+
+  function escolherProximo(estado) {
+    const G = estado.filas.G;
+    const P = estado.filas.P;
+
+    if (!G.length && !P.length) {
+      return null;
+    }
+
+    // Somente preferenciais disponíveis.
+    if (!G.length) {
+      return {
+        paciente: P[0],
+        tipo: "P",
+        contarAlternancia: false
+      };
+    }
+
+    // Somente normais disponíveis.
+    if (!P.length) {
+      return {
+        paciente: G[0],
+        tipo: "G",
+        contarAlternancia: false
+      };
+    }
+
+    // Ambas as filas estão preenchidas.
+    const ciclo = estado.sequencia % 3;
+    const tipo = ciclo === 2 ? "P" : "G";
+
+    return {
+      paciente: estado.filas[tipo][0],
+      tipo,
+      contarAlternancia: true
+    };
+  }
+
+  // Seleciona o próximo paciente sem removê-lo ainda da fila.
+  chamar.addEventListener("click", () => {
+    if (pendente) return;
+
+    const estado = lerEstado();
+    const escolha = escolherProximo(estado);
+
+    if (!escolha) {
+      status.textContent = "Não há pacientes aguardando.";
+      renderizar();
+      return;
+    }
+
+    pendente = {
+      ...escolha.paciente,
+      tipo: escolha.tipo,
+      contarAlternancia: escolha.contarAlternancia
+    };
+
+    status.textContent =
+      "Selecione o guichê para concluir a chamada.";
+
+    renderizar();
+  });
+
+  // Direciona o paciente ao guichê escolhido e conclui a chamada.
+  document.querySelectorAll("[data-guiche]").forEach(botao => {
+    botao.addEventListener("click", () => {
+      if (!pendente) return;
+
+      const guiche = Number(botao.dataset.guiche);
+      const estado = lerEstado();
+      const tipo = pendente.tipo;
+
+      // Confere se o paciente ainda está aguardando.
+      const indice = estado.filas[tipo].findIndex(
+        paciente => paciente.senha === pendente.senha
+      );
+
+      if (indice === -1) {
+        pendente = null;
+
+        status.textContent =
+          "Este paciente não está mais na fila. Selecione o próximo.";
+
+        renderizar();
+        return;
+      }
+
+      // Retira o paciente chamado da fila.
+      estado.filas[tipo].splice(indice, 1);
+
+      /*
+       * Avança o ciclo somente se as duas filas estavam
+       * disponíveis quando o paciente foi selecionado.
+       */
+      if (pendente.contarAlternancia) {
+        estado.sequencia = (estado.sequencia + 1) % 3;
+      }
+
+      const chamada = {
+        senha: pendente.senha,
+        nome: pendente.nome,
+        tipo: pendente.tipo,
+        guiche,
+        chamadaEm: new Date().toISOString()
+      };
+
+      estado.atual = chamada;
+
+      estado.chamadas.unshift(chamada);
+      estado.chamadas = estado.chamadas.slice(0, 3);
+
+      salvarEstado(estado, "chamada");
+
+      pendente = null;
+
+      status.textContent =
+        `Senha ${chamada.senha} direcionada ao Guichê ${guiche}.`;
+
+      renderizar();
+    });
+  });
+
+  // Rechama a senha atualmente exibida, sem alterar as filas.
+  rechamar.addEventListener("click", () => {
+    const estado = lerEstado();
+
+    if (!estado.atual) {
+      status.textContent = "Não há chamada atual para rechamar.";
+      return;
+    }
+
+    estado.atual = {
+      ...estado.atual,
+      rechamadaEm: new Date().toISOString()
+    };
+
+    salvarEstado(estado, "rechamada");
+
+    status.textContent =
+      `Rechamada: ${estado.atual.senha} - Guichê ${estado.atual.guiche}.`;
+  });
+
+  // Limpa as filas, os contadores, a chamada atual e o histórico.
+  document.getElementById("resetar").addEventListener("click", () => {
+    const confirmar = window.confirm(
+      "Deseja realmente limpar todas as filas, os contadores e o histórico de chamadas?"
+    );
+
+    if (!confirmar) return;
+
+    pendente = null;
+
+    salvarEstado(estadoInicial(), "reset");
+
+    status.textContent = "Filas e histórico resetados.";
+
+    renderizar();
+  });
+
+  // Atualiza a interface quando outra página envia uma mensagem.
+  if (canal) {
+    canal.onmessage = () => {
+      renderizar();
+    };
+  }
+
+  // Atualiza a interface quando o localStorage muda em outra aba.
+  window.addEventListener("storage", evento => {
+    if (evento.key === STORAGE_KEY) {
+      renderizar();
+    }
+  });
+
+  renderizar();
+})();
+</script>
+</body>
+</html>
