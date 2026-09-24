@@ -1,193 +1,512 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Max Lab | Totem de Senhas</title>
-<style>
-:root{--orange:#F58220;--blue:#1677d2;--red:#dc3545;--purple:#7B3FA1}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;font-family:Arial,sans-serif;background:#f4f6f9;color:#263548}
-.container{width:100%;max-width:650px;padding:35px;background:white;border-radius:24px;box-shadow:0 12px 40px #172b4d12;text-align:center}
-.logo{color:var(--orange);font-size:36px;font-weight:900}
-h1{font-size:29px;margin:18px 0 8px}
-.subtitulo{color:#64748b;font-size:18px;line-height:1.5;margin-bottom:25px}
-input{width:100%;padding:20px;font-size:22px;border:2px solid #dbe3ef;border-radius:14px;margin-bottom:18px}
-.botoes{display:grid;grid-template-columns:1fr;gap:12px}
-button{min-height:85px;padding:16px;border:0;border-radius:15px;color:white;font-size:22px;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.4;cursor:not-allowed}
-.normal{background:var(--blue)}.preferencial{background:var(--red)}.idoso{background:var(--purple)}
-.mensagem{display:none;margin-top:22px;padding:20px;background:#fff4e8;color:#7c3e0b;border:2px solid #ffd2a6;border-radius:16px;font-size:20px;font-weight:bold}
-.codigo{display:block;margin:10px;color:var(--orange);font-size:clamp(42px,10vw,64px);font-weight:900}
-#status{margin-top:14px;color:#64748b}
-@media(min-width:520px){.botoes{grid-template-columns:repeat(3,1fr)}button{font-size:18px;min-height:115px}}
-#fullscreenBtn {
-  position: fixed;
-  bottom: 12px;
-  left: 12px;
-  z-index: 9999;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f6f9">
+  <title>Max Lab | Totem de Senhas</title>
 
-  min-height: 0;
-  padding: 7px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 6px;
+  <style>
+    :root {
+      --orange: #F58220;
+      --blue: #1677d2;
+      --red: #dc3545;
+      --purple: #7B3FA1;
+      --ink: #263548;
+      --muted: #64748b;
+      --key-border: #d5deea;
+    }
 
-  color: #666;
-  background: rgba(240, 240, 240, 0.65);
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  font-weight: normal;
+    * { box-sizing: border-box; }
 
-  opacity: 0.55;
-  cursor: pointer;
-  box-shadow: none;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: clamp(8px, 1.4vw, 22px);
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-#fullscreenBtn:hover {
-  opacity: 1;
-  background: rgba(230, 230, 230, 0.95);
-}
-</style>
+    .container {
+      width: 100%;
+      max-width: 1500px;
+      padding: clamp(14px, 2vw, 30px);
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 12px 40px #172b4d12;
+      text-align: center;
+    }
+
+    .logo {
+      color: var(--orange);
+      font-size: clamp(30px, 3.3vw, 52px);
+      font-weight: 900;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    h1 {
+      font-size: clamp(28px, 2.8vw, 44px);
+      margin: 10px 0 4px;
+    }
+
+    .subtitulo {
+      color: var(--muted);
+      font-size: clamp(17px, 1.6vw, 24px);
+      line-height: 1.35;
+      margin: 0 0 16px;
+    }
+
+    #nome {
+      display: block;
+      width: 100%;
+      padding: clamp(14px, 1.5vw, 22px);
+      font-size: clamp(23px, 2.1vw, 32px);
+      border: 3px solid #dbe3ef;
+      border-radius: 15px;
+      margin: 0 0 14px;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+      text-align: left;
+      cursor: default;
+    }
+
+    #nome:focus { border-color: var(--blue); }
+
+    .botoes {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(8px, 1.1vw, 16px);
+      margin-bottom: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 14px;
+      font-family: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .botoes button {
+      min-height: clamp(76px, 9vw, 125px);
+      padding: 12px 8px;
+      color: #fff;
+      font-size: clamp(19px, 1.9vw, 29px);
+      line-height: 1.15;
+      box-shadow: 0 4px 0 #00000012;
+    }
+
+    button:disabled {
+      opacity: .42;
+      cursor: not-allowed;
+    }
+
+    .normal { background: var(--blue); }
+    .preferencial { background: var(--red); }
+    .idoso { background: var(--purple); }
+
+    .teclado {
+      padding: clamp(8px, 1.2vw, 18px);
+      border-radius: 18px;
+      background: #e5ebf3;
+      border: 1px solid #d8e0eb;
+    }
+
+    .linha-teclas {
+      display: flex;
+      justify-content: center;
+      gap: clamp(5px, .65vw, 10px);
+      margin-bottom: clamp(5px, .65vw, 10px);
+    }
+
+    .linha-teclas:last-child { margin-bottom: 0; }
+
+    .tecla {
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: clamp(46px, 5.8vw, 78px);
+      padding: 5px 3px;
+      background: #fff;
+      color: #17395f;
+      border: 1px solid var(--key-border);
+      border-bottom-width: 4px;
+      border-radius: 11px;
+      font-size: clamp(20px, 2vw, 31px);
+      font-weight: 700;
+      box-shadow: 0 1px 0 #cbd5e1;
+    }
+
+    .tecla:active {
+      transform: translateY(2px);
+      border-bottom-width: 2px;
+      background: #f2f7ff;
+    }
+
+    .tecla.acao {
+      flex: 1.45 1 0;
+      background: #cbd7e7;
+      color: #17395f;
+      font-size: clamp(14px, 1.35vw, 21px);
+    }
+
+    .tecla.espaco { flex: 4 1 0; }
+
+    .tecla.ok {
+      flex: 1.8 1 0;
+      background: var(--blue);
+      color: #fff;
+      border-color: #1266b6;
+    }
+
+    .mensagem {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      background: #fff4e8;
+      color: #7c3e0b;
+      border: 2px solid #ffd2a6;
+      border-radius: 16px;
+      font-size: clamp(20px, 2vw, 30px);
+      font-weight: bold;
+    }
+
+    .codigo {
+      display: block;
+      margin: 10px;
+      color: var(--orange);
+      font-size: clamp(48px, 6vw, 82px);
+      font-weight: 900;
+    }
+
+    #status {
+      min-height: 1.3em;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: clamp(16px, 1.4vw, 22px);
+    }
+
+    #fullscreenBtn {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      z-index: 9999;
+      min-height: 0;
+      padding: 8px 11px;
+      border: 1px solid rgba(0, 0, 0, .08);
+      border-radius: 7px;
+      color: #666;
+      background: rgba(240, 240, 240, .82);
+      font-size: 13px;
+      font-weight: normal;
+      opacity: .65;
+      box-shadow: none;
+    }
+
+    #fullscreenBtn:hover {
+      opacity: 1;
+      background: rgba(230, 230, 230, .98);
+    }
+
+    /* Ajustes para tablets em modo horizontal com pouca altura */
+    @media (orientation: landscape) and (max-height: 720px) {
+      body { padding: 7px; }
+      .container { padding: 10px 18px; border-radius: 16px; }
+      .logo { font-size: 28px; }
+      h1 { font-size: 26px; margin: 5px 0 2px; }
+      .subtitulo { font-size: 15px; margin-bottom: 8px; }
+      #nome { padding: 10px 14px; font-size: 21px; margin-bottom: 8px; }
+      .botoes { gap: 8px; margin-bottom: 8px; }
+      .botoes button { min-height: 58px; font-size: 19px; padding: 8px; }
+      .teclado { padding: 7px; }
+      .linha-teclas { gap: 5px; margin-bottom: 5px; }
+      .tecla { min-height: 39px; font-size: 20px; border-radius: 8px; }
+      .tecla.acao { font-size: 13px; }
+    }
+
+    /* Mantém a página utilizável caso seja aberta na vertical */
+    @media (orientation: portrait) {
+      body { align-items: flex-start; }
+      .botoes { grid-template-columns: 1fr; }
+      .botoes button { min-height: 68px; }
+      .tecla { min-height: 48px; }
+    }
+  </style>
 </head>
+
 <body>
-    <button id="fullscreenBtn" type="button">⛶ Tela cheia</button>
-<main class="container">
-  <div class="logo">MAX LAB</div>
-  <h1>Bem-vindo(a)!</h1>
-  <p class="subtitulo">Digite seu nome e selecione o tipo de atendimento.</p>
-  <input id="nome" maxlength="100" autocomplete="off" placeholder="Digite seu nome" aria-label="Digite seu nome">
-  <div class="botoes">
-    <button class="normal" id="btnG" disabled>NORMAL</button>
-    <button class="preferencial" id="btnP" disabled>PREFERENCIAL</button>
-    <button class="idoso" id="btnE" disabled>PREFERENCIAL +80</button>
-  </div>
-  <div class="mensagem" id="mensagem" role="status" aria-live="polite">
-    Cadastro realizado com sucesso!
-    <span class="codigo" id="codigo"></span>
-    Aguarde na recepção.
-  </div>
-  <div id="status" role="status"></div>
-</main>
+  <button id="fullscreenBtn" type="button">⛶ Tela cheia</button>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-<script>
-(() => {
-  const firebaseConfig = {
-    apiKey: "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
-    authDomain: "maxlab-senhas.firebaseapp.com",
-    databaseURL: "https://maxlab-senhas-default-rtdb.firebaseio.com",
-    projectId: "maxlab-senhas",
-    storageBucket: "maxlab-senhas.firebasestorage.app",
-    messagingSenderId: "403118178001",
-    appId: "1:403118178001:web:c99c52fa089b778e8d4ff0"
-  };
+  <main class="container">
+    <div class="logo">MAX LAB</div>
+    <h1>Bem-vindo(a)!</h1>
+    <p class="subtitulo">
+      Digite seu nome usando o teclado abaixo e selecione o tipo de atendimento.
+    </p>
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-  const stateRef = db.ref("maxlab/state");
+    <input
+      id="nome"
+      maxlength="100"
+      autocomplete="off"
+      placeholder="Toque nas letras abaixo para digitar seu nome"
+      aria-label="Nome do paciente"
+      readonly
+      inputmode="none"
+    >
 
-  const nome = document.getElementById("nome");
-  const buttons = {
-    G: document.getElementById("btnG"),
-    P: document.getElementById("btnP"),
-    E: document.getElementById("btnE")
-  };
-  const mensagem = document.getElementById("mensagem");
-  const codigo = document.getElementById("codigo");
-  const status = document.getElementById("status");
-  let timer;
+    <div class="botoes" aria-label="Selecione o tipo de atendimento">
+      <button class="normal" id="btnG" type="button" disabled>NORMAL</button>
+      <button class="preferencial" id="btnP" type="button" disabled>PREFERENCIAL</button>
+      <button class="idoso" id="btnE" type="button" disabled>PREFERENCIAL +80</button>
+    </div>
 
-  function initialState() {
-    return {
-      filas: { G: [], P: [], E: [] },
-      contadores: { G: 0, P: 0, E: 0 },
-      chamadas: [],
-      atual: null
-    };
-  }
+    <section class="teclado" aria-label="Teclado virtual">
+      <div class="linha-teclas">
+        <button class="tecla" type="button" data-key="Q">Q</button>
+        <button class="tecla" type="button" data-key="W">W</button>
+        <button class="tecla" type="button" data-key="E">E</button>
+        <button class="tecla" type="button" data-key="R">R</button>
+        <button class="tecla" type="button" data-key="T">T</button>
+        <button class="tecla" type="button" data-key="Y">Y</button>
+        <button class="tecla" type="button" data-key="U">U</button>
+        <button class="tecla" type="button" data-key="I">I</button>
+        <button class="tecla" type="button" data-key="O">O</button>
+        <button class="tecla" type="button" data-key="P">P</button>
+      </div>
 
-  function enableButtons() {
-    const enabled = nome.value.trim().length > 0;
-    Object.values(buttons).forEach(b => b.disabled = !enabled);
-  }
+      <div class="linha-teclas">
+        <button class="tecla" type="button" data-key="A">A</button>
+        <button class="tecla" type="button" data-key="S">S</button>
+        <button class="tecla" type="button" data-key="D">D</button>
+        <button class="tecla" type="button" data-key="F">F</button>
+        <button class="tecla" type="button" data-key="G">G</button>
+        <button class="tecla" type="button" data-key="H">H</button>
+        <button class="tecla" type="button" data-key="J">J</button>
+        <button class="tecla" type="button" data-key="K">K</button>
+        <button class="tecla" type="button" data-key="L">L</button>
+        <button class="tecla" type="button" data-key="Ç">Ç</button>
+      </div>
 
-  async function emitir(tipo) {
-    const pacienteNome = nome.value.trim();
-    if (!pacienteNome) return;
+      <div class="linha-teclas">
+        <button class="tecla acao" type="button" data-action="clear">LIMPAR</button>
+        <button class="tecla" type="button" data-key="Z">Z</button>
+        <button class="tecla" type="button" data-key="X">X</button>
+        <button class="tecla" type="button" data-key="C">C</button>
+        <button class="tecla" type="button" data-key="V">V</button>
+        <button class="tecla" type="button" data-key="B">B</button>
+        <button class="tecla" type="button" data-key="N">N</button>
+        <button class="tecla" type="button" data-key="M">M</button>
+        <button class="tecla acao" type="button" data-action="backspace">⌫ APAGAR</button>
+      </div>
 
-    Object.values(buttons).forEach(b => b.disabled = true);
-    status.textContent = "Registrando senha…";
+      <div class="linha-teclas">
+        <button class="tecla acao" type="button" data-key="Á">Á</button>
+        <button class="tecla acao" type="button" data-key="É">É</button>
+        <button class="tecla acao" type="button" data-key="Í">Í</button>
+        <button class="tecla acao" type="button" data-key="Ó">Ó</button>
+        <button class="tecla acao" type="button" data-key="Ú">Ú</button>
+        <button class="tecla acao" type="button" data-key="Ã">Ã</button>
+        <button class="tecla acao" type="button" data-key="Õ">Õ</button>
+        <button class="tecla acao" type="button" data-key="Â">Â</button>
+        <button class="tecla acao" type="button" data-key="Ê">Ê</button>
+        <button class="tecla acao" type="button" data-key="Ô">Ô</button>
+      </div>
 
-    try {
-      let senhaGerada = "";
-      await stateRef.transaction(state => {
-        state = state || initialState();
-        state.filas = state.filas || {};
-        state.contadores = state.contadores || {};
-        ["G", "P", "E"].forEach(t => {
-          state.filas[t] = Array.isArray(state.filas[t]) ? state.filas[t] : [];
-          state.contadores[t] = Number(state.contadores[t]) || 0;
+      <div class="linha-teclas">
+        <button class="tecla acao" type="button" data-action="hyphen">-</button>
+        <button class="tecla espaco" type="button" data-action="space">ESPAÇO</button>
+        <button class="tecla ok" type="button" data-action="done">OK</button>
+      </div>
+    </section>
+
+    <div class="mensagem" id="mensagem" role="status" aria-live="polite">
+      Cadastro realizado com sucesso!
+      <span class="codigo" id="codigo"></span>
+      Aguarde na recepção.
+    </div>
+
+    <div id="status" role="status" aria-live="polite"></div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+  <script>
+    (() => {
+      const firebaseConfig = {
+        apiKey: "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
+        authDomain: "maxlab-senhas.firebaseapp.com",
+        databaseURL: "https://maxlab-senhas-default-rtdb.firebaseio.com",
+        projectId: "maxlab-senhas",
+        storageBucket: "maxlab-senhas.firebasestorage.app",
+        messagingSenderId: "403118178001",
+        appId: "1:403118178001:web:c99c52fa089b778e8d4ff0"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      const db = firebase.database();
+      const stateRef = db.ref("maxlab/state");
+      const nome = document.getElementById("nome");
+      const buttons = {
+        G: document.getElementById("btnG"),
+        P: document.getElementById("btnP"),
+        E: document.getElementById("btnE")
+      };
+      const mensagem = document.getElementById("mensagem");
+      const codigo = document.getElementById("codigo");
+      const status = document.getElementById("status");
+      let timer;
+
+      function initialState() {
+        return {
+          filas: { G: [], P: [], E: [] },
+          contadores: { G: 0, P: 0, E: 0 },
+          chamadas: [],
+          atual: null
+        };
+      }
+
+      function enableButtons() {
+        const enabled = nome.value.trim().length > 0;
+        Object.values(buttons).forEach(button => {
+          button.disabled = !enabled;
         });
-        state.chamadas = state.chamadas || [];
-        state.contadores[tipo]++;
-        senhaGerada = tipo + "-" + String(state.contadores[tipo]).padStart(3, "0");
-        state.filas[tipo].push({
-          nome: pacienteNome,
-          senha: senhaGerada,
-          tipo,
-          criadoEm: new Date().toISOString()
+      }
+
+      function insertText(text) {
+        if (nome.value.length >= 100) return;
+
+        nome.value += text;
+        enableButtons();
+        status.textContent = "";
+      }
+
+      document.querySelectorAll(".tecla").forEach(key => {
+        key.addEventListener("click", () => {
+          const value = key.dataset.key;
+          const action = key.dataset.action;
+
+          if (value) {
+            insertText(value);
+          } else if (action === "space") {
+            if (nome.value.length > 0 && !nome.value.endsWith(" ")) {
+              insertText(" ");
+            }
+          } else if (action === "backspace") {
+            nome.value = nome.value.slice(0, -1);
+            enableButtons();
+            status.textContent = "";
+          } else if (action === "clear") {
+            nome.value = "";
+            enableButtons();
+            status.textContent = "";
+          } else if (action === "hyphen") {
+            insertText("-");
+          } else if (action === "done") {
+            enableButtons();
+            status.textContent = nome.value.trim()
+              ? "Nome preenchido. Agora selecione o tipo de atendimento."
+              : "Toque nas letras para digitar seu nome.";
+          }
         });
-        return state;
       });
 
-      nome.value = "";
-      mensagem.style.display = "block";
-      codigo.textContent = senhaGerada;
-      status.textContent = "";
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        mensagem.style.display = "none";
-        codigo.textContent = "";
-      }, 10000);
-    } catch (err) {
-      console.error(err);
-      status.textContent = "Erro ao cadastrar. Verifique a conexão e tente novamente.";
-    } finally {
-      enableButtons();
-      nome.focus();
-    }
-  }
+      async function emitir(tipo) {
+        const pacienteNome = nome.value.trim();
 
-  nome.addEventListener("input", enableButtons);
-  buttons.G.addEventListener("click", () => emitir("G"));
-  buttons.P.addEventListener("click", () => emitir("P"));
-  buttons.E.addEventListener("click", () => emitir("E"));
-  enableButtons();
-})();
-</script>
-<script>
-  const fullscreenBtn = document.getElementById("fullscreenBtn");
+        if (!pacienteNome) {
+          status.textContent = "Digite seu nome usando o teclado abaixo.";
+          return;
+        }
 
-  fullscreenBtn.addEventListener("click", async () => {
-    try {
-      if (!document.fullscreenElement) {
-        await document.documentElement.requestFullscreen();
-      } else {
-        await document.exitFullscreen();
+        Object.values(buttons).forEach(button => {
+          button.disabled = true;
+        });
+        status.textContent = "Registrando senha…";
+
+        try {
+          let senhaGerada = "";
+
+          const resultado = await stateRef.transaction(state => {
+            state = state || initialState();
+            state.filas = state.filas || {};
+            state.contadores = state.contadores || {};
+
+            ["G", "P", "E"].forEach(t => {
+              state.filas[t] = Array.isArray(state.filas[t]) ? state.filas[t] : [];
+              state.contadores[t] = Number(state.contadores[t]) || 0;
+            });
+
+            state.chamadas = Array.isArray(state.chamadas) ? state.chamadas : [];
+            state.contadores[tipo] += 1;
+            senhaGerada = tipo + "-" + String(state.contadores[tipo]).padStart(3, "0");
+
+            state.filas[tipo].push({
+              nome: pacienteNome,
+              senha: senhaGerada,
+              tipo: tipo,
+              criadoEm: new Date().toISOString()
+            });
+
+            return state;
+          });
+
+          if (!resultado.committed) {
+            throw new Error("A gravação não foi confirmada pelo banco de dados.");
+          }
+
+          nome.value = "";
+          mensagem.style.display = "block";
+          codigo.textContent = senhaGerada;
+          status.textContent = "";
+
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            mensagem.style.display = "none";
+            codigo.textContent = "";
+          }, 10000);
+        } catch (err) {
+          console.error(err);
+          status.textContent = "Erro ao cadastrar. Verifique a conexão e tente novamente.";
+        } finally {
+          enableButtons();
+        }
       }
-    } catch (error) {
-      alert("Não foi possível ativar a tela cheia neste dispositivo.");
-    }
-  });
 
-  document.addEventListener("fullscreenchange", () => {
-    fullscreenBtn.textContent = document.fullscreenElement
-      ? "⛶ Sair da tela cheia"
-      : "⛶ Tela cheia";
-  });
-</script>
+      buttons.G.addEventListener("click", () => emitir("G"));
+      buttons.P.addEventListener("click", () => emitir("P"));
+      buttons.E.addEventListener("click", () => emitir("E"));
 
+      enableButtons();
+    })();
+
+    const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+    fullscreenBtn.addEventListener("click", async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (error) {
+        alert("Não foi possível ativar a tela cheia neste dispositivo.");
+      }
+    });
+
+    document.addEventListener("fullscreenchange", () => {
+      fullscreenBtn.textContent = document.fullscreenElement
+        ? "⛶ Sair da tela cheia"
+        : "⛶ Tela cheia";
+    });
+  </script>
 </body>
 </html>
