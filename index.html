@@ -1,561 +1,367 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Max Lab | Painel de Senhas</title>
-
 <style>
-:root {
-  --fundo: #0B192C;
-  --fundo-card: #263548;
-  --laranja: #F58220;
-  --laranja-claro: #FF9A42;
-  --cinza: #D1D5DB;
-  --cinza-secundario: #AEB8C5;
-  --branco: #FFFFFF;
-}
+:root{--bg:#0B192C;--card:#263548;--orange:#F58220;--gray:#D1D5DB;--white:#fff}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--white);font-family:Arial,sans-serif}
+.panel{min-height:100vh;display:flex;flex-direction:column;padding:24px 4vw;text-align:center}
+header{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:2px solid #52647a;padding-bottom:18px}
+.logo{color:var(--orange);font-size:clamp(28px,3.5vw,48px);font-weight:900;letter-spacing:2px}
+.logo span{color:white;font-weight:400}
+.subtitle{border:2px solid var(--orange);border-radius:40px;padding:11px 22px;color:var(--gray);font-weight:bold}
 
-* {
-  box-sizing: border-box;
-}
+.main-row{flex:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:28px;align-items:center;padding:20px 0}
+.main-row.sem-midia{grid-template-columns:minmax(0,1fr)}
+.content{display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:0}
+.label{font-size:clamp(18px,2.5vw,34px);color:var(--gray);font-weight:bold;letter-spacing:3px}
+.ticket{font-size:clamp(70px,11vw,170px);font-weight:900;line-height:1.05;margin:15px 0;color:var(--orange);overflow-wrap:anywhere}
+.main-row.sem-midia .ticket{font-size:clamp(85px,19vw,230px)}
+.name{font-size:clamp(26px,3.8vw,56px);font-weight:900;margin:8px 0 24px;text-transform:uppercase;overflow-wrap:anywhere}
+.category{font-size:clamp(18px,2.3vw,30px);font-weight:bold;color:var(--gray);margin-bottom:15px}
+.guiche{background:var(--orange);font-size:clamp(25px,4vw,55px);font-weight:900;padding:15px 48px;border-radius:17px}
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: var(--fundo);
-  color: var(--branco);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow: hidden;
-}
+.media{position:relative;width:100%;aspect-ratio:16/9;border-radius:20px;overflow:hidden;background:#000;border:2px solid #52647a}
+.media img,.media video,.media iframe{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.media img{opacity:0;transition:opacity 1.2s ease}
+.media img.on{opacity:1}
 
-.painel {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 25px 4vw;
-  text-align: center;
-}
-
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  border-bottom: 2px solid #52647a;
-  padding-bottom: 20px;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--laranja);
-  font-size: clamp(27px, 3.5vw, 48px);
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-.logo-lab {
-  color: var(--branco);
-  font-weight: 400;
-}
-
-.logo-simbolo {
-  color: var(--laranja);
-  font-size: 1.2em;
-}
-
-.subtitulo {
-  border: 2px solid var(--laranja);
-  border-radius: 40px;
-  padding: 12px 25px;
-  color: var(--cinza);
-  font-size: clamp(13px, 1.6vw, 22px);
-  font-weight: bold;
-  letter-spacing: 1px;
-}
-
-.conteudo {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 25px 0;
-  min-height: 0;
-}
-
-.rotulo {
-  font-size: clamp(18px, 2.5vw, 34px);
-  color: var(--cinza);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: bold;
-}
-
-.senha {
-  font-size: clamp(85px, 19vw, 230px);
-  font-weight: 900;
-  line-height: 1.05;
-  margin: 15px 0;
-  color: var(--laranja);
-  text-shadow: 0 0 35px #F5822044;
-  overflow-wrap: anywhere;
-}
-
-.nome {
-  font-size: clamp(28px, 4.5vw, 62px);
-  font-weight: 900;
-  margin: 8px 0 25px;
-  color: var(--branco);
-  overflow-wrap: anywhere;
-  text-transform: uppercase;
-}
-
-.guiche {
-  display: inline-block;
-  background: var(--laranja);
-  color: var(--branco);
-  font-size: clamp(25px, 4vw, 55px);
-  font-weight: 900;
-  padding: 16px 55px;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px #F5822044;
-}
-
-.aguardando {
-  font-size: clamp(30px, 4.5vw, 60px);
-  color: var(--cinza);
-  font-weight: bold;
-}
-
-.historico {
-  border-top: 2px solid #52647a;
-  padding-top: 20px;
-}
-
-.titulo-historico {
-  font-size: clamp(15px, 1.8vw, 23px);
-  color: var(--cinza);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: bold;
-  margin-bottom: 16px;
-}
-
-.lista-historico {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
-}
-
-.item-historico {
-  background: var(--fundo-card);
-  border: 1px solid #64748b;
-  border-radius: 18px;
-  padding: 15px 10px;
-  box-shadow: 0 4px 15px #00000020;
-  min-width: 0;
-}
-
-.historico-senha {
-  font-size: clamp(26px, 4vw, 52px);
-  font-weight: 900;
-  color: var(--laranja);
-  overflow-wrap: anywhere;
-}
-
-.historico-guiche {
-  color: var(--cinza);
-  font-size: clamp(14px, 2vw, 24px);
-  font-weight: bold;
-  margin-top: 7px;
-}
-
-.rodape {
-  border-top: 2px solid #52647a;
-  margin-top: 22px;
-  padding-top: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.controles {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  color: var(--cinza-secundario);
-  font-size: clamp(12px, 1.5vw, 19px);
-}
-
-#ativarSom {
-  border: 2px solid var(--laranja);
-  border-radius: 40px;
-  background: transparent;
-  color: var(--branco);
-  padding: 12px 25px;
-  font-size: clamp(14px, 1.7vw, 21px);
-  font-weight: bold;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-#ativarSom:hover {
-  background: var(--laranja);
-}
-
-.marca-rodape {
-  text-align: right;
-  color: var(--cinza-secundario);
-  font-size: clamp(12px, 1.4vw, 18px);
-}
-
-.marca-rodape strong {
-  display: block;
-  color: var(--laranja);
-  font-size: clamp(18px, 2.2vw, 29px);
-  letter-spacing: 1px;
-}
-
-.marca-rodape strong span {
-  color: var(--branco);
-  font-weight: 400;
-}
-
-@keyframes duasPiscadas {
-  0%, 100% { opacity: 1; }
-  15%, 35% { opacity: .12; }
-  25%, 45% { opacity: 1; }
-  55%, 75% { opacity: .12; }
-  65%, 85% { opacity: 1; }
-}
-
-.piscando {
-  animation: duasPiscadas .9s ease-in-out;
-}
-
-@media (max-width: 650px) {
-  body {
-    overflow: auto;
-  }
-
-  .painel {
-    padding: 15px 12px;
-  }
-
-  header {
-    flex-direction: column;
-  }
-
-  .subtitulo {
-    padding: 9px 16px;
-  }
-
-  .conteudo {
-    padding: 35px 0;
-  }
-
-  .senha {
-    font-size: clamp(70px, 20vw, 130px);
-  }
-
-  .nome {
-    font-size: clamp(24px, 7vw, 38px);
-  }
-
-  .guiche {
-    padding: 13px 28px;
-  }
-
-  .lista-historico {
-    gap: 7px;
-  }
-
-  .item-historico {
-    padding: 12px 4px;
-    border-radius: 10px;
-  }
-
-  .rodape {
-    flex-direction: column;
-  }
-
-  .controles {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .marca-rodape {
-    text-align: center;
-  }
-}
+.history{border-top:2px solid #52647a;padding-top:18px}
+.history-title{font-weight:bold;color:var(--gray);letter-spacing:3px;margin-bottom:14px}
+.history-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.history-item{background:var(--card);border:1px solid #64748b;border-radius:15px;padding:14px 8px;min-width:0}
+.history-ticket{font-size:clamp(26px,4vw,52px);font-weight:900;color:var(--orange);overflow-wrap:anywhere}
+.history-name{font-size:clamp(13px,1.7vw,22px);font-weight:bold;text-transform:uppercase;overflow-wrap:anywhere;margin-top:5px}
+.history-guiche{color:var(--gray);margin-top:6px;font-weight:bold}
+footer{border-top:2px solid #52647a;margin-top:20px;padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:18px}
+#sound,#music{margin-right:8px;border:2px solid var(--orange);border-radius:40px;background:transparent;color:white;padding:11px 22px;font-weight:bold;font-size:17px;cursor:pointer}
+.brand{text-align:right;color:#AEB8C5}.brand strong{display:block;color:var(--orange);font-size:25px}
+@keyframes blink{0%,100%{opacity:1}15%,35%,55%,75%{opacity:.12}25%,45%,65%,85%{opacity:1}}
+.blink{animation:blink .9s ease-in-out}
+@media(max-width:900px){.main-row{grid-template-columns:minmax(0,1fr)}.media{display:none}.main-row .ticket{font-size:clamp(85px,19vw,230px)}}
+@media(max-width:650px){header,footer{flex-direction:column}.brand{text-align:center}.history-list{gap:6px}.history-item{padding:10px 3px}.panel{padding:14px 10px}}
 </style>
 </head>
-
 <body>
-<main class="painel" id="painel">
-
-  <header>
-    <div class="logo">
-      <span class="logo-simbolo">✚</span>
-      <span>MAX <span class="logo-lab">LAB</span></span>
-    </div>
-
-    <div class="subtitulo">PAINEL DE ATENDIMENTO</div>
-  </header>
-
-  <section class="conteudo" aria-live="polite">
-    <div class="rotulo">Última senha chamada</div>
-
-    <div class="senha" id="senha">---</div>
-
-    <div class="nome" id="nome">
-      Aguardando próxima chamada
-    </div>
-
+<main class="panel" id="panel">
+<header>
+  <div class="logo">✚ MAX <span>LAB</span></div>
+  <div class="subtitle">PAINEL DE ATENDIMENTO</div>
+</header>
+<div class="main-row" id="mainRow">
+  <section class="content" aria-live="polite">
+    <div class="label">ÚLTIMA SENHA CHAMADA</div>
+    <div class="ticket" id="ticket">---</div>
+    <div class="name" id="name">Aguardando próxima chamada</div>
+    <div class="category" id="category"></div>
     <div class="guiche" id="guiche">AGUARDE</div>
   </section>
-
-  <section class="historico">
-    <div class="titulo-historico">Últimas senhas chamadas</div>
-
-    <div class="lista-historico" id="historico">
-      <div class="item-historico">
-        <div class="historico-senha">---</div>
-        <div class="historico-guiche">Guichê --</div>
-      </div>
-
-      <div class="item-historico">
-        <div class="historico-senha">---</div>
-        <div class="historico-guiche">Guichê --</div>
-      </div>
-
-      <div class="item-historico">
-        <div class="historico-senha">---</div>
-        <div class="historico-guiche">Guichê --</div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="rodape">
-    <div class="controles">
-      <button id="ativarSom">♫ Ativar som</button>
-      <span id="avisoSom">Clique para habilitar o áudio da TV.</span>
-    </div>
-
-    <div class="marca-rodape">
-      <strong>MAX <span>LAB</span></strong>
-      Cuidando de você
-    </div>
-  </footer>
-
+  <aside class="media" id="media" aria-hidden="true"></aside>
+</div>
+<section class="history">
+  <div class="history-title">ÚLTIMAS SENHAS CHAMADAS</div>
+  <div class="history-list" id="history"></div>
+</section>
+<footer>
+  <div><button id="sound">♫ Ativar som</button><button id="music">♪ Música: ligada</button><div id="soundStatus">Clique para habilitar o áudio da TV.</div></div>
+  <div class="brand"><strong>MAX <span style="color:white;font-weight:400">LAB</span></strong>Cuidando de você</div>
+</footer>
 </main>
-
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 (() => {
-  "use strict";
+  /* ================== CONFIGURAÇÃO DA MÍDIA ==================
+     modo: "imagens" | "video" | "youtube" | "nenhum"
 
-  const STORAGE_KEY = "maxlab_senhas_v1";
+     IMAGENS: suba as fotos na pasta "img/" com os nomes
+       foto1.jpg, foto2.jpg, foto3.jpg ... até foto20.jpg
+     Pode usar menos de 20 (ex.: só foto1 a foto10): as que não
+     existirem são ignoradas automaticamente, sem erro.
+     Se preferir outros nomes, preencha "fotos" com a lista.
+  ============================================================ */
+  const MEDIA = {
+    modo: "imagens",
+    pasta: "img",
+    extensao: "jpg",
+    maxFotos: 20,
+    fotos: [],            // ex.: ["img/recepcao.jpg", "img/coleta.png"]  (vazio = usa foto1..foto20)
+    intervalo: 8000,      // tempo de cada foto, em milissegundos
 
-  const senhaEl = document.getElementById("senha");
-  const nomeEl = document.getElementById("nome");
-  const guicheEl = document.getElementById("guiche");
-  const historicoEl = document.getElementById("historico");
-  const painel = document.getElementById("painel");
-  const avisoSom = document.getElementById("avisoSom");
-  const botaoSom = document.getElementById("ativarSom");
+    video: "video/institucional.mp4",
 
-  let canal = null;
-  let audioContext = null;
-  let somAtivo = false;
-  let ultimoEvento = "";
+    // Live de canal: "live_stream?channel=ID_DO_CANAL"  |  vídeo fixo: "ID_DO_VIDEO"
+    youtube: "live_stream?channel=COLE_O_ID_DO_CANAL"
+  };
 
-  try {
-    canal = new BroadcastChannel("maxlab_senhas");
-  } catch (erro) {
-    console.warn("BroadcastChannel indisponível.", erro);
+  function semMidia() {
+    const box = document.getElementById("media");
+    if (box) box.remove();
+    document.getElementById("mainRow").classList.add("sem-midia");
   }
 
-  function lerEstado() {
-    try {
-      const salvo = localStorage.getItem(STORAGE_KEY);
+  function iniciarImagens(box) {
+    const lista = (MEDIA.fotos && MEDIA.fotos.length)
+      ? MEDIA.fotos.slice()
+      : Array.from({length: MEDIA.maxFotos}, (_, i) => `${MEDIA.pasta}/foto${i + 1}.${MEDIA.extensao}`);
+    const camadas = [0, 1].map(() => {
+      const im = document.createElement("img");
+      im.alt = "";
+      box.appendChild(im);
+      return im;
+    });
+    let front = 1, idx = -1;
 
-      if (!salvo) return null;
+    function proxima() {
+      if (!lista.length) { semMidia(); return; }
+      idx = (idx + 1) % lista.length;
+      const src = lista[idx];
+      const back = 1 - front;
+      const im = camadas[back];
 
-      return JSON.parse(salvo);
-    } catch (erro) {
-      console.error("Erro ao ler estado.", erro);
-      return null;
+      function mostrar() {
+        camadas[front].classList.remove("on");
+        im.classList.add("on");
+        front = back;
+        if (lista.length > 1) setTimeout(proxima, MEDIA.intervalo);
+      }
+
+      im.onload = mostrar;
+      im.onerror = () => {
+        lista.splice(idx, 1);
+        idx--;
+        proxima();
+      };
+
+      if (im.dataset.src === src && im.complete && im.naturalWidth) {
+        mostrar();
+      } else {
+        im.dataset.src = src;
+        im.src = src;
+      }
+    }
+    proxima();
+  }
+
+  function iniciarVideo(box) {
+    const v = document.createElement("video");
+    v.muted = true;
+    v.loop = true;
+    v.autoplay = true;
+    v.playsInline = true;
+    v.setAttribute("muted", "");
+    v.addEventListener("error", semMidia);
+    v.src = MEDIA.video;
+    box.appendChild(v);
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+  }
+
+  function iniciarYoutube(box) {
+    const sep = MEDIA.youtube.includes("?") ? "&" : "?";
+    const f = document.createElement("iframe");
+    f.src = `https://www.youtube.com/embed/${MEDIA.youtube}${sep}autoplay=1&mute=1&controls=0&rel=0&playsinline=1`;
+    f.allow = "autoplay; encrypted-media";
+    f.title = "Vídeo";
+    box.appendChild(f);
+  }
+
+  function iniciarMidia() {
+    const box = document.getElementById("media");
+    if (MEDIA.modo === "imagens") iniciarImagens(box);
+    else if (MEDIA.modo === "video") iniciarVideo(box);
+    else if (MEDIA.modo === "youtube") iniciarYoutube(box);
+    else semMidia();
+  }
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
+    authDomain: "maxlab-senhas.firebaseapp.com",
+    databaseURL: "https://maxlab-senhas-default-rtdb.firebaseio.com",
+    projectId: "maxlab-senhas",
+    storageBucket: "maxlab-senhas.firebasestorage.app",
+    messagingSenderId: "403118178001",
+    appId: "1:403118178001:web:c99c52fa089b778e8d4ff0"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const ref = firebase.database().ref("maxlab/state");
+  const $ = id => document.getElementById(id);
+  const labels = {G:"NORMAL",P:"PREFERENCIAL",E:"PREFERENCIAL +80"};
+  let audio = null, soundOn = false, lastEvent = "";
+
+  /* ============ MÚSICA DE FUNDO: estilo MPB / bossa nova ============
+     Gerada pelo navegador (composição original, sem arquivo de áudio).
+     bpm: andamento (100 = mais lento, 125 = mais animado)
+     volume: 0.03 (baixinho) a 0.15 (mais presente)
+  ==================================================================== */
+  const MUSICA = { ligada: true, volume: 0.08, bpm: 112 };
+  let musicaPref = MUSICA.ligada, musicGain = null, musicTimer = null, musicOn = false;
+  let compassoIdx = 0, proximoCompasso = 0;
+
+  const DM7  = { acorde:[220.00,261.63,349.23,440.00], baixo:[146.83,110.00], melodia:[587.33,659.25,698.46,880.00] };
+  const G7   = { acorde:[174.61,246.94,329.63],        baixo:[98.00,146.83],  melodia:[587.33,698.46,783.99,987.77] };
+  const CM7  = { acorde:[164.81,196.00,246.94,293.66], baixo:[130.81,98.00],  melodia:[587.33,659.25,783.99,987.77] };
+  const AM7  = { acorde:[196.00,261.63,329.63,392.00], baixo:[110.00,164.81], melodia:[523.25,659.25,783.99,880.00] };
+  const EM7  = { acorde:[196.00,246.94,293.66,329.63], baixo:[164.81,123.47], melodia:[587.33,659.25,783.99,987.77] };
+  const A7   = { acorde:[196.00,277.18,329.63],        baixo:[110.00,164.81], melodia:[554.37,659.25,783.99,880.00] };
+  const CIFRA = [DM7, G7, CM7, AM7, DM7, G7, EM7, A7];
+
+  function dedilhado(freq, t, dur, vol) {
+    const o1 = audio.createOscillator(), o2 = audio.createOscillator();
+    const mix2 = audio.createGain(), filtro = audio.createBiquadFilter(), g = audio.createGain();
+    o1.type = "triangle"; o2.type = "sine";
+    o1.frequency.setValueAtTime(freq, t);
+    o2.frequency.setValueAtTime(freq * 2, t);
+    mix2.gain.value = .25;
+    filtro.type = "lowpass";
+    filtro.frequency.setValueAtTime(2600, t);
+    filtro.frequency.exponentialRampToValueAtTime(700, t + dur);
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + .008);
+    g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+    o1.connect(filtro); o2.connect(mix2); mix2.connect(filtro);
+    filtro.connect(g); g.connect(musicGain);
+    o1.start(t); o2.start(t);
+    o1.stop(t + dur + .05); o2.stop(t + dur + .05);
+  }
+
+  function tocarCompasso(t, idx) {
+    const c = CIFRA[idx % CIFRA.length];
+    const e = 60 / MUSICA.bpm / 2;
+    [0, 3].forEach((p, i) => dedilhado(c.baixo[i], t + p * e, .7, .5));
+    const batidas = idx % 2 === 0 ? [0, 3, 6] : [2, 4];
+    batidas.forEach(p => c.acorde.forEach((f, k) => dedilhado(f, t + p * e + k * .012, .9, .16)));
+    const n = Math.random() < .35 ? 1 : 2 + Math.floor(Math.random() * 2);
+    const posicoes = [1, 2, 4, 5, 7];
+    for (let i = 0; i < n; i++) {
+      const p = posicoes[Math.floor(Math.random() * posicoes.length)];
+      const f = c.melodia[Math.floor(Math.random() * c.melodia.length)];
+      dedilhado(f, t + p * e, .8, .13);
     }
   }
 
-  function renderizarHistorico(chamadas) {
-    historicoEl.replaceChildren();
-
-    for (let i = 0; i < 3; i++) {
-      const chamada = chamadas[i];
-
-      const item = document.createElement("div");
-      item.className = "item-historico";
-
-      const senha = document.createElement("div");
-      senha.className = "historico-senha";
-      senha.textContent = chamada ? chamada.senha : "---";
-
-      const guiche = document.createElement("div");
-      guiche.className = "historico-guiche";
-      guiche.textContent = chamada
-        ? `Guichê ${chamada.guiche}`
-        : "Guichê --";
-
-      item.append(senha, guiche);
-      historicoEl.appendChild(item);
+  function agendarMusica() {
+    if (!musicOn || !audio) return;
+    const e = 60 / MUSICA.bpm / 2;
+    while (proximoCompasso < audio.currentTime + 2) {
+      tocarCompasso(proximoCompasso, compassoIdx);
+      proximoCompasso += 8 * e;
+      compassoIdx++;
     }
   }
 
-  function tocarGongo() {
-    if (!somAtivo || !audioContext) return;
+  function iniciarMusica() {
+    if (!audio || musicOn) return;
+    if (!musicGain) {
+      musicGain = audio.createGain();
+      musicGain.gain.value = 0;
+      musicGain.connect(audio.destination);
+    }
+    musicGain.gain.cancelScheduledValues(audio.currentTime);
+    musicGain.gain.setTargetAtTime(MUSICA.volume, audio.currentTime, .8);
+    musicOn = true;
+    compassoIdx = 0;
+    proximoCompasso = audio.currentTime + .2;
+    agendarMusica();
+    musicTimer = setInterval(agendarMusica, 500);
+  }
 
-    const agora = audioContext.currentTime;
+  function pararMusica() {
+    musicOn = false;
+    clearInterval(musicTimer);
+    if (musicGain) {
+      musicGain.gain.cancelScheduledValues(audio.currentTime);
+      musicGain.gain.setTargetAtTime(0, audio.currentTime, .4);
+    }
+  }
 
-    // Dois tons curtos produzidos pelo próprio navegador.
-    [0, 0.38].forEach((atraso, indice) => {
-      const oscilador = audioContext.createOscillator();
-      const ganho = audioContext.createGain();
-
-      oscilador.type = "sine";
-
-      oscilador.frequency.setValueAtTime(
-        indice === 0 ? 880 : 660,
-        agora + atraso
-      );
-
-      ganho.gain.setValueAtTime(
-        0.0001,
-        agora + atraso
-      );
-
-      ganho.gain.exponentialRampToValueAtTime(
-        0.35,
-        agora + atraso + 0.03
-      );
-
-      ganho.gain.exponentialRampToValueAtTime(
-        0.0001,
-        agora + atraso + 0.28
-      );
-
-      oscilador.connect(ganho);
-      ganho.connect(audioContext.destination);
-
-      oscilador.start(agora + atraso);
-      oscilador.stop(agora + atraso + 0.3);
+  function chime() {
+    if (!soundOn || !audio) return;
+    const now = audio.currentTime;
+    if (musicGain && musicOn) {
+      musicGain.gain.cancelScheduledValues(now);
+      musicGain.gain.setTargetAtTime(MUSICA.volume * .2, now, .1);
+      musicGain.gain.setTargetAtTime(MUSICA.volume, now + 2.5, .8);
+    }
+    [0,.38].forEach((delay,i) => {
+      const osc = audio.createOscillator(), gain = audio.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(i ? 660 : 880,now+delay);
+      gain.gain.setValueAtTime(.0001,now+delay);
+      gain.gain.exponentialRampToValueAtTime(.3,now+delay+.03);
+      gain.gain.exponentialRampToValueAtTime(.0001,now+delay+.28);
+      osc.connect(gain); gain.connect(audio.destination);
+      osc.start(now+delay); osc.stop(now+delay+.3);
     });
   }
 
-  function efeitoChamada() {
-    painel.classList.remove("piscando");
-
-    // Reinicia a animação para executar as duas piscadas.
-    void painel.offsetWidth;
-
-    painel.classList.add("piscando");
-
-    tocarGongo();
+  function animate() {
+    $("panel").classList.remove("blink");
+    void $("panel").offsetWidth;
+    $("panel").classList.add("blink");
+    chime();
   }
 
-  function renderizar(estado, tipoEvento = "") {
-    if (!estado) return;
-
-    const atual = estado.atual;
-
-    if (atual) {
-      senhaEl.textContent = atual.senha || "---";
-      nomeEl.textContent = atual.nome || "";
-      guicheEl.textContent = `GUICHÊ ${atual.guiche}`;
-
-      // O guichê utiliza laranja para ambas as categorias.
-      guicheEl.style.background = "#F58220";
-    } else {
-      senhaEl.textContent = "---";
-      nomeEl.textContent = "Aguardando próxima chamada";
-      guicheEl.textContent = "AGUARDE";
-      guicheEl.style.background = "#F58220";
-    }
-
-    renderizarHistorico(estado.chamadas || []);
-
-    if (
-      atual &&
-      (tipoEvento === "chamada" || tipoEvento === "rechamada")
-    ) {
-      const identificador = tipoEvento === "rechamada"
-        ? `${atual.senha}-${atual.guiche}-${atual.rechamadaEm || ""}`
-        : `${atual.senha}-${atual.guiche}-${atual.chamadaEm || ""}`;
-
-      if (identificador !== ultimoEvento) {
-        ultimoEvento = identificador;
-        efeitoChamada();
-      }
-    }
-
-    if (tipoEvento === "reset") {
-      ultimoEvento = "";
+  function history(calls) {
+    const root = $("history"); root.replaceChildren();
+    for (let i=0;i<3;i++) {
+      const c = calls[i];
+      const item = document.createElement("div"); item.className = "history-item";
+      const ticket = document.createElement("div"); ticket.className = "history-ticket";
+      ticket.textContent = c ? c.senha : "---";
+      const name = document.createElement("div"); name.className = "history-name";
+      name.textContent = c ? c.nome : "";
+      const guiche = document.createElement("div"); guiche.className = "history-guiche";
+      guiche.textContent = c ? `Guichê ${c.guiche}` : "Guichê --";
+      item.append(ticket,name,guiche); root.appendChild(item);
     }
   }
 
-  botaoSom.addEventListener("click", async () => {
+  function render(s) {
+    if (!s) s = {};
+    const c = s.atual;
+    $("ticket").textContent = c ? c.senha : "---";
+    $("name").textContent = c ? (c.nome || "").toLocaleUpperCase("pt-BR") : "Aguardando próxima chamada";
+    $("category").textContent = c ? (labels[c.tipo] || "") : "";
+    $("guiche").textContent = c ? `GUICHÊ ${c.guiche}` : "AGUARDE";
+    history(Array.isArray(s.chamadas) ? s.chamadas : []);
+    if (c && c.chamadaEm) {
+      const id = `${c.senha}|${c.guiche}|${c.chamadaEm}|${c.rechamadaEm || ""}`;
+      if (id !== lastEvent) { lastEvent = id; animate(); }
+    } else if (!c) lastEvent = "";
+  }
+
+  $("sound").addEventListener("click", async () => {
     try {
-      const AudioCtx =
-        window.AudioContext || window.webkitAudioContext;
-
-      if (!AudioCtx) {
-        avisoSom.textContent =
-          "Áudio não suportado neste navegador.";
-        return;
-      }
-
-      if (!audioContext) {
-        audioContext = new AudioCtx();
-      }
-
-      if (audioContext.state === "suspended") {
-        await audioContext.resume();
-      }
-
-      somAtivo = true;
-      avisoSom.textContent = "Som ativado.";
-
-      tocarGongo();
-    } catch (erro) {
-      avisoSom.textContent =
-        "Não foi possível ativar o áudio.";
-
-      console.error("Erro ao ativar áudio.", erro);
-    }
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) { $("soundStatus").textContent = "Áudio não suportado."; return; }
+      if (!audio) audio = new Ctx();
+      if (audio.state === "suspended") await audio.resume();
+      soundOn = true;
+      if (musicaPref) iniciarMusica();
+      $("soundStatus").textContent = "Som ativado.";
+      chime();
+    } catch(e) { $("soundStatus").textContent = "Não foi possível ativar o áudio."; }
   });
 
-  if (canal) {
-    canal.onmessage = evento => {
-      const dados = evento.data;
-
-      if (dados && dados.estado) {
-        renderizar(dados.estado, dados.tipo);
-      }
-    };
-  }
-
-  window.addEventListener("storage", evento => {
-    if (evento.key === STORAGE_KEY) {
-      renderizar(lerEstado());
-    }
+  $("music").textContent = musicaPref ? "♪ Música: ligada" : "♪ Música: desligada";
+  $("music").addEventListener("click", () => {
+    if (!soundOn) { $("soundStatus").textContent = "Ative o som primeiro."; return; }
+    musicaPref = !musicaPref;
+    if (musicaPref) iniciarMusica(); else pararMusica();
+    $("music").textContent = musicaPref ? "♪ Música: ligada" : "♪ Música: desligada";
   });
 
-  renderizar(lerEstado());
+  ref.on("value", snap => render(snap.val()), err => {
+    $("name").textContent = "Erro de conexão com o painel";
+    console.error(err);
+  });
+  render(null);
+  iniciarMidia();
 })();
 </script>
 </body>

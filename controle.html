@@ -3,757 +3,233 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Max Lab | Controle de Atendimento</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Max Lab | Controle</title>
 <style>
-:root {
-  --laranja: #F58220;
-  --laranja-escuro: #d96b0b;
-  --azul: #1677d2;
-  --vermelho: #dc3545;
-  --fundo: #f2f5fa;
-  --texto: #172b4d;
-  --verde: #16834a;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  padding: 24px;
-  font-family: Arial, sans-serif;
-  background: var(--fundo);
-  color: var(--texto);
-}
-
-.painel {
-  max-width: 1200px;
-  margin: auto;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-h1 {
-  margin: 0;
-  font-size: 30px;
-}
-
-.logo {
-  color: var(--laranja);
-  font-weight: 900;
-}
-
-button {
-  border: none;
-  border-radius: 10px;
-  padding: 13px 18px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: opacity .15s, transform .15s;
-}
-
-button:active:not(:disabled) {
-  transform: scale(.97);
-}
-
-button:disabled {
-  opacity: .4;
-  cursor: not-allowed;
-}
-
-.chamada {
-  background: white;
-  padding: 25px;
-  border-radius: 18px;
-  text-align: center;
-  box-shadow: 0 4px 18px #172b4d0b;
-  margin-bottom: 25px;
-}
-
-#chamar {
-  width: 100%;
-  max-width: 500px;
-  padding: 23px;
-  background: var(--laranja);
-  color: white;
-  font-size: 25px;
-}
-
-#chamar:hover:not(:disabled) {
-  background: var(--laranja-escuro);
-}
-
-#rechamar {
-  margin-top: 12px;
-  background: #e8edf5;
-  color: var(--texto);
-}
-
-.direcionamento {
-  display: none;
-  margin-top: 22px;
-  padding: 20px;
-  border: 2px solid #dbe3ef;
-  border-radius: 14px;
-}
-
-.direcionamento h2 {
-  overflow-wrap: anywhere;
-}
-
-.guiches {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 15px;
-}
-
-.guiches button {
-  background: var(--laranja);
-  color: white;
-  min-width: 130px;
-}
-
-.contadores {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.contador {
-  background: white;
-  padding: 15px 25px;
-  border-radius: 12px;
-  font-size: 18px;
-  box-shadow: 0 4px 18px #172b4d0b;
-}
-
-.filas {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-}
-
-.coluna {
-  background: white;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 4px 18px #172b4d0b;
-}
-
-.titulo-fila {
-  padding: 20px;
-  color: white;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.titulo-G {
-  background: var(--azul);
-}
-
-.titulo-P {
-  background: var(--vermelho);
-}
-
-.lista {
-  padding: 12px;
-  min-height: 130px;
-}
-
-.paciente {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 14px;
-  margin-bottom: 10px;
-  border: 1px solid #e3e9f2;
-  border-radius: 10px;
-  overflow-wrap: anywhere;
-}
-
-.info-paciente {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-  flex: 1;
-}
-
-.nome-paciente {
-  font-size: 16px;
-  font-weight: 600;
-  overflow-wrap: anywhere;
-}
-
-.senha {
-  font-weight: 900;
-  font-size: 19px;
-  white-space: nowrap;
-}
-
-.acoes-paciente {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.btn-atendido {
-  background: var(--verde);
-  color: white;
-  padding: 10px 13px;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.btn-atendido:hover {
-  background: #106638;
-}
-
-.vazio {
-  padding: 20px;
-  color: #8190a5;
-  text-align: center;
-}
-
-.status {
-  color: #64748b;
-  font-size: 14px;
-  margin-top: 10px;
-  min-height: 18px;
-}
-
-.rodape {
-  margin-top: 35px;
-  text-align: center;
-}
-
-#resetar {
-  background: transparent;
-  color: #8994a5;
-  font-size: 13px;
-}
-
-#resetar:hover {
-  color: var(--vermelho);
-}
-
-@media (max-width: 700px) {
-  body {
-    padding: 14px;
-  }
-
-  .filas {
-    grid-template-columns: 1fr;
-  }
-
-  .paciente {
-    padding: 11px;
-    gap: 8px;
-  }
-
-  .btn-atendido {
-    padding: 9px;
-    font-size: 12px;
-  }
-
-  .nome-paciente {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 380px) {
-  .paciente {
-    flex-wrap: wrap;
-  }
-
-  .acoes-paciente {
-    width: 100%;
-  }
-
-  .btn-atendido {
-    width: 100%;
-  }
-}
+:root{--orange:#F58220;--blue:#1677d2;--red:#dc3545;--purple:#7B3FA1;--green:#16834a}
+*{box-sizing:border-box}
+body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b4d}
+main{max-width:1200px;margin:auto}
+header,.stats,.queues,.guiches{display:flex;gap:14px;flex-wrap:wrap}
+header{justify-content:space-between;align-items:center;margin-bottom:22px}
+h1{margin:0}.logo{color:var(--orange)}
+.stats{justify-content:center;margin-bottom:20px}
+.stat,.panel,.queue{background:white;border-radius:15px;padding:18px;box-shadow:0 4px 18px #172b4d0b}
+.stat{font-size:17px}
+.panel{text-align:center;margin-bottom:22px}
+button{border:0;border-radius:9px;padding:13px 17px;font-weight:bold;font-size:16px;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+#call{background:var(--orange);color:white;font-size:23px;padding:20px;width:min(100%,500px)}
+#recall{margin-top:10px;background:#e8edf5;color:#172b4d}
+#pending{display:none;margin-top:18px;border:2px solid #dbe3ef;border-radius:12px;padding:18px}
+.guiches{justify-content:center;margin-top:12px}
+.guiches button{background:var(--orange);color:white}
+.queues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.queue{padding:0;overflow:hidden;min-width:0}
+.qtitle{padding:18px;color:white;font-size:20px;font-weight:bold}
+.qG{background:var(--blue)}.qP{background:var(--red)}.qE{background:var(--purple)}
+.list{padding:12px;min-height:100px}
+.patient{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid #e3e9f2;border-radius:9px;padding:12px;margin-bottom:9px}
+.info{min-width:0;overflow-wrap:anywhere}.pname{font-weight:bold;text-transform:uppercase}.ticket{font-size:18px;font-weight:900;margin-top:5px}
+.done{background:var(--green);color:white;white-space:nowrap;font-size:13px}
+.empty{color:#8190a5;text-align:center;padding:20px}
+#status{color:#64748b;margin-top:12px;min-height:18px}
+footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#8994a5;font-size:13px}
+@media(max-width:760px){.queues{grid-template-columns:1fr}.patient{flex-wrap:wrap}.done{width:100%}}
 </style>
 </head>
-
 <body>
-<div class="painel">
-
-  <header>
-    <h1><span class="logo">MAX LAB</span> | Atendimento</h1>
-    <strong>Controle de Senhas</strong>
-  </header>
-
-  <section class="contadores">
-    <div class="contador">
-      Normais aguardando:
-      <strong id="totalG">0</strong>
+<main>
+<header><h1><span class="logo">MAX LAB</span> | Atendimento</h1><strong>Controle de Senhas</strong></header>
+<section class="stats">
+  <div class="stat">Normais: <strong id="totalG">0</strong></div>
+  <div class="stat">Preferenciais: <strong id="totalP">0</strong></div>
+  <div class="stat">Preferencial +80: <strong id="totalE">0</strong></div>
+  <div class="stat">Total: <strong id="total">0</strong></div>
+</section>
+<section class="panel">
+  <button id="call">CHAMAR PRÓXIMO</button><br>
+  <button id="recall">Rechamar Atual</button>
+  <div id="pending">
+    <h2 id="pendingText"></h2>
+    <p>Direcionar paciente para qual guichê?</p>
+    <div class="guiches">
+      <button data-guiche="1">Guichê 1</button>
+      <button data-guiche="2">Guichê 2</button>
+      <button data-guiche="3">Guichê 3</button>
     </div>
-
-    <div class="contador">
-      Preferenciais aguardando:
-      <strong id="totalP">0</strong>
-    </div>
-
-    <div class="contador">
-      Total aguardando:
-      <strong id="totalGeral">0</strong>
-    </div>
-  </section>
-
-  <section class="chamada">
-    <button id="chamar">CHAMAR PRÓXIMO</button>
-    <br>
-    <button id="rechamar">Rechamar Atual</button>
-
-    <div class="direcionamento" id="direcionamento">
-      <h2 id="textoDirecionamento"></h2>
-      <p>Direcionar paciente para qual guichê?</p>
-
-      <div class="guiches">
-        <button type="button" data-guiche="1">Guichê 1</button>
-        <button type="button" data-guiche="2">Guichê 2</button>
-        <button type="button" data-guiche="3">Guichê 3</button>
-      </div>
-    </div>
-
-    <div class="status" id="status" role="status" aria-live="polite"></div>
-  </section>
-
-  <section class="filas">
-
-    <div class="coluna">
-      <div class="titulo-fila titulo-G">Fila Normal (G)</div>
-      <div class="lista" id="filaG"></div>
-    </div>
-
-    <div class="coluna">
-      <div class="titulo-fila titulo-P">Fila Preferencial (P)</div>
-      <div class="lista" id="filaP"></div>
-    </div>
-
-  </section>
-
-  <footer class="rodape">
-    <button type="button" id="resetar">Resetar Todas as Filas</button>
-  </footer>
-
-</div>
-
+  </div>
+  <div id="status" role="status"></div>
+</section>
+<section class="queues">
+  <div class="queue"><div class="qtitle qE">Preferencial +80 (E)</div><div class="list" id="listE"></div></div>
+  <div class="queue"><div class="qtitle qP">Preferencial (P)</div><div class="list" id="listP"></div></div>
+  <div class="queue"><div class="qtitle qG">Normal (G)</div><div class="list" id="listG"></div></div>
+</section>
+<footer><button id="reset">Resetar Todas as Filas</button></footer>
+</main>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 (() => {
-  "use strict";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
+    authDomain: "maxlab-senhas.firebaseapp.com",
+    databaseURL: "https://maxlab-senhas-default-rtdb.firebaseio.com",
+    projectId: "maxlab-senhas",
+    storageBucket: "maxlab-senhas.firebasestorage.app",
+    messagingSenderId: "403118178001",
+    appId: "1:403118178001:web:c99c52fa089b778e8d4ff0"
+  };
 
-  const STORAGE_KEY = "maxlab_senhas_v1";
-  const CHANNEL_NAME = "maxlab_senhas";
+  firebase.initializeApp(firebaseConfig);
+  const ref = firebase.database().ref("maxlab/state");
+  const $ = id => document.getElementById(id);
+  let state = null;
+  let pending = null;
+  const labels = {G:"NORMAL",P:"PREFERENCIAL",E:"PREFERENCIAL +80"};
+  const colors = {G:"#1677d2",P:"#dc3545",E:"#7B3FA1"};
 
-  const filaG = document.getElementById("filaG");
-  const filaP = document.getElementById("filaP");
-  const chamar = document.getElementById("chamar");
-  const rechamar = document.getElementById("rechamar");
-  const direcionamento = document.getElementById("direcionamento");
-  const textoDirecionamento = document.getElementById("textoDirecionamento");
-  const status = document.getElementById("status");
+  function initial() {
+    return {filas:{G:[],P:[],E:[]},contadores:{G:0,P:0,E:0},chamadas:[],atual:null,ultimaCategoriaPG:null};
+  }
+  function normalize(s) {
+    s = s || initial();
+    s.filas = s.filas || {};
+    s.contadores = s.contadores || {};
+    ["G","P","E"].forEach(t => {
+      s.filas[t] = Array.isArray(s.filas[t]) ? s.filas[t] : [];
+      s.contadores[t] = Number(s.contadores[t]) || 0;
+    });
+    s.chamadas = Array.isArray(s.chamadas) ? s.chamadas : [];
+    s.ultimaCategoriaPG = s.ultimaCategoriaPG === "P" || s.ultimaCategoriaPG === "G" ? s.ultimaCategoriaPG : null;
+    return s;
+  }
+  function save(s) { return ref.set(s); }
 
-  let pendente = null;
-  let canal = null;
-
-  try {
-    canal = new BroadcastChannel(CHANNEL_NAME);
-  } catch (erro) {
-    console.warn("BroadcastChannel indisponível.", erro);
+  function drawQueue(type) {
+    const el = $("list"+type);
+    el.replaceChildren();
+    const people = state.filas[type];
+    if (!people.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent = "Nenhum paciente aguardando.";
+      el.appendChild(empty);
+      return;
+    }
+    people.forEach(p => {
+      const row = document.createElement("div"); row.className = "patient";
+      const info = document.createElement("div"); info.className = "info";
+      const name = document.createElement("div"); name.className = "pname"; name.textContent = p.nome;
+      const ticket = document.createElement("div"); ticket.className = "ticket";
+      ticket.style.color = colors[type]; ticket.textContent = p.senha;
+      info.append(name,ticket);
+      const done = document.createElement("button"); done.className = "done"; done.textContent = "✓ Atendido";
+      done.addEventListener("click", () => attend(type,p.senha));
+      row.append(info,done); el.appendChild(row);
+    });
   }
 
-  function estadoInicial() {
-    return {
-      filas: {
-        G: [],
-        P: []
-      },
-      contadores: {
-        G: 0,
-        P: 0
-      },
-      chamadas: [],
-      atual: null,
-
-      // Posição atual no ciclo: G, G, P.
-      sequencia: 0
-    };
+  function render() {
+    if (!state) return;
+    ["G","P","E"].forEach(t => {
+      $("total"+t).textContent = state.filas[t].length;
+      drawQueue(t);
+    });
+    $("total").textContent = ["G","P","E"].reduce((n,t)=>n+state.filas[t].length,0);
+    $("call").disabled = !!pending || !["E","P","G"].some(t=>state.filas[t].length);
+    $("recall").disabled = !state.atual;
+    $("pending").style.display = pending ? "block" : "none";
+    $("pendingText").textContent = pending ? `${pending.senha} — ${pending.nome} (${labels[pending.tipo]})` : "";
   }
 
-  function lerEstado() {
+  // Escolhe a categoria: E sempre tem prioridade máxima.
+  // Entre P e G, alterna sem usar tempo de espera; E não altera a vez do ciclo.
+  function proximaCategoria(s) {
+    if (s.filas.E.length > 0) return "E";
+
+    const primeiraOpcao = s.ultimaCategoriaPG === "P" ? "G" : "P";
+    const segundaOpcao = primeiraOpcao === "P" ? "G" : "P";
+
+    if (s.filas[primeiraOpcao].length > 0) return primeiraOpcao;
+    if (s.filas[segundaOpcao].length > 0) return segundaOpcao;
+    return null;
+  }
+
+  async function attend(type, ticket) {
+    if (pending) { $("status").textContent = "Conclua o direcionamento atual primeiro."; return; }
+    if (!confirm(`Confirmar atendimento da senha ${ticket}?`)) return;
     try {
-      const salvo = localStorage.getItem(STORAGE_KEY);
-
-      if (!salvo) {
-        return estadoInicial();
-      }
-
-      const dados = JSON.parse(salvo);
-
-      if (!dados.filas || !dados.contadores) {
-        return estadoInicial();
-      }
-
-      dados.filas.G ||= [];
-      dados.filas.P ||= [];
-
-      dados.contadores.G ||= 0;
-      dados.contadores.P ||= 0;
-
-      dados.chamadas ||= [];
-      dados.sequencia ||= 0;
-
-      return dados;
-    } catch (erro) {
-      console.error("Erro ao ler os dados:", erro);
-      return estadoInicial();
-    }
-  }
-
-  function salvarEstado(estado, tipo = "atualizacao") {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
-
-    if (canal) {
-      canal.postMessage({
-        tipo,
-        estado
+      let found = false;
+      await ref.transaction(raw => {
+        const s = normalize(raw);
+        const i = s.filas[type].findIndex(p=>p.senha===ticket);
+        if (i < 0) return;
+        s.filas[type].splice(i,1); found = true; return s;
       });
-    }
+      $("status").textContent = found ? `Atendimento confirmado: ${ticket}.` : `A senha ${ticket} não está mais na fila.`;
+    } catch(e) { $("status").textContent = "Falha ao atualizar o banco."; console.error(e); }
   }
 
-  function criarPaciente(paciente, cor) {
-    const item = document.createElement("div");
-    item.className = "paciente";
-
-    const informacoes = document.createElement("div");
-    informacoes.className = "info-paciente";
-
-    const nome = document.createElement("span");
-    nome.className = "nome-paciente";
-    nome.textContent = paciente.nome;
-
-    const senha = document.createElement("span");
-    senha.className = "senha";
-    senha.style.color = cor;
-    senha.textContent = paciente.senha;
-
-    informacoes.append(nome, senha);
-
-    const acoes = document.createElement("div");
-    acoes.className = "acoes-paciente";
-
-    const botaoAtendido = document.createElement("button");
-    botaoAtendido.className = "btn-atendido";
-    botaoAtendido.type = "button";
-    botaoAtendido.textContent = "✓ Atendido";
-
-    botaoAtendido.setAttribute(
-      "aria-label",
-      `Confirmar atendimento de ${paciente.nome}, senha ${paciente.senha}`
-    );
-
-    botaoAtendido.addEventListener("click", () => {
-      confirmarAtendimento(paciente.tipo, paciente.senha);
-    });
-
-    acoes.appendChild(botaoAtendido);
-    item.append(informacoes, acoes);
-
-    return item;
-  }
-
-  function desenharFila(elemento, pacientes, cor) {
-    elemento.replaceChildren();
-
-    if (!pacientes.length) {
-      const vazio = document.createElement("div");
-      vazio.className = "vazio";
-      vazio.textContent = "Nenhum paciente aguardando.";
-
-      elemento.appendChild(vazio);
-      return;
-    }
-
-    pacientes.forEach(paciente => {
-      elemento.appendChild(criarPaciente(paciente, cor));
-    });
-  }
-
-  function renderizar() {
-    const estado = lerEstado();
-
-    desenharFila(filaG, estado.filas.G, "#1677d2");
-    desenharFila(filaP, estado.filas.P, "#dc3545");
-
-    document.getElementById("totalG").textContent =
-      estado.filas.G.length;
-
-    document.getElementById("totalP").textContent =
-      estado.filas.P.length;
-
-    document.getElementById("totalGeral").textContent =
-      estado.filas.G.length + estado.filas.P.length;
-
-    chamar.disabled = Boolean(pendente) ||
-      (!estado.filas.G.length && !estado.filas.P.length);
-
-    rechamar.disabled = !estado.atual;
-
-    if (pendente) {
-      direcionamento.style.display = "block";
-
-      textoDirecionamento.textContent =
-        `Direcionar ${pendente.senha} - ${pendente.nome}`;
-    } else {
-      direcionamento.style.display = "none";
-      textoDirecionamento.textContent = "";
-    }
-  }
-
-  // Confirma o atendimento de um paciente que está aguardando.
-  function confirmarAtendimento(tipo, senha) {
-    if (pendente) {
-      status.textContent =
-        "Conclua o direcionamento da chamada atual antes de confirmar outro atendimento.";
-      return;
-    }
-
-    const confirmar = window.confirm(
-      `Confirmar que o paciente da senha ${senha} já foi atendido?`
-    );
-
-    if (!confirmar) return;
-
-    const estado = lerEstado();
-
-    const indice = estado.filas[tipo].findIndex(
-      paciente => paciente.senha === senha
-    );
-
-    if (indice === -1) {
-      status.textContent =
-        `A senha ${senha} não está mais na fila de espera.`;
-
-      renderizar();
-      return;
-    }
-
-    const paciente = estado.filas[tipo][indice];
-
-    // Remove somente o paciente confirmado.
-    estado.filas[tipo].splice(indice, 1);
-
-    salvarEstado(estado, "atualizacao");
-
-    status.textContent =
-      `Atendimento confirmado: ${paciente.senha} - ${paciente.nome}.`;
-
-    renderizar();
-  }
-
-  /*
-   * Regra de prioridade:
-   * G -> G -> P -> G -> G -> P ...
-   *
-   * Quando as duas filas têm pacientes, a próxima categoria
-   * é determinada pela posição no ciclo.
-   *
-   * Se uma fila estiver vazia, utiliza-se a fila disponível.
-   * Chamadas feitas nessa situação não avançam o ciclo.
-   */
-
-  function escolherProximo(estado) {
-    const G = estado.filas.G;
-    const P = estado.filas.P;
-
-    if (!G.length && !P.length) {
-      return null;
-    }
-
-    // Somente preferenciais disponíveis.
-    if (!G.length) {
-      return {
-        paciente: P[0],
-        tipo: "P",
-        contarAlternancia: false
-      };
-    }
-
-    // Somente normais disponíveis.
-    if (!P.length) {
-      return {
-        paciente: G[0],
-        tipo: "G",
-        contarAlternancia: false
-      };
-    }
-
-    // Ambas as filas estão preenchidas.
-    const ciclo = estado.sequencia % 3;
-    const tipo = ciclo === 2 ? "P" : "G";
-
-    return {
-      paciente: estado.filas[tipo][0],
-      tipo,
-      contarAlternancia: true
-    };
-  }
-
-  // Seleciona o próximo paciente sem removê-lo ainda da fila.
-  chamar.addEventListener("click", () => {
-    if (pendente) return;
-
-    const estado = lerEstado();
-    const escolha = escolherProximo(estado);
-
-    if (!escolha) {
-      status.textContent = "Não há pacientes aguardando.";
-      renderizar();
-      return;
-    }
-
-    pendente = {
-      ...escolha.paciente,
-      tipo: escolha.tipo,
-      contarAlternancia: escolha.contarAlternancia
-    };
-
-    status.textContent =
-      "Selecione o guichê para concluir a chamada.";
-
-    renderizar();
+  $("call").addEventListener("click", () => {
+    if (!state || pending) return;
+    const type = proximaCategoria(state);
+    if (!type) { $("status").textContent = "Não há pacientes aguardando."; return; }
+    pending = {...state.filas[type][0],tipo:type};
+    $("status").textContent = "Selecione o guichê para concluir a chamada.";
+    render();
   });
 
-  // Direciona o paciente ao guichê escolhido e conclui a chamada.
-  document.querySelectorAll("[data-guiche]").forEach(botao => {
-    botao.addEventListener("click", () => {
-      if (!pendente) return;
+  document.querySelectorAll("[data-guiche]").forEach(btn => btn.addEventListener("click", async () => {
+    if (!pending) return;
+    const p = pending, guiche = Number(btn.dataset.guiche);
+    pending = null;
+    try {
+      let committed = false;
+      await ref.transaction(raw => {
+        const s = normalize(raw);
+        const i = s.filas[p.tipo].findIndex(x=>x.senha===p.senha);
+        if (i < 0) return;
+        const [patient] = s.filas[p.tipo].splice(i,1);
+        // Atualiza a alternância apenas quando P ou G é efetivamente chamada.
+        // Uma chamada E mantém intacta a próxima vez entre P e G.
+        if (p.tipo === "P" || p.tipo === "G") s.ultimaCategoriaPG = p.tipo;
+        const call = {...patient,guiche,chamadaEm:new Date().toISOString()};
+        s.atual = call;
+        s.chamadas.unshift(call);
+        s.chamadas = s.chamadas.slice(0,3);
+        committed = true;
+        return s;
+      });
+      $("status").textContent = committed ? `Senha ${p.senha} direcionada ao Guichê ${guiche}.` : "Paciente não encontrado na fila.";
+    } catch(e) { $("status").textContent = "Erro ao registrar a chamada."; console.error(e); }
+    render();
+  }));
 
-      const guiche = Number(botao.dataset.guiche);
-      const estado = lerEstado();
-      const tipo = pendente.tipo;
-
-      // Confere se o paciente ainda está aguardando.
-      const indice = estado.filas[tipo].findIndex(
-        paciente => paciente.senha === pendente.senha
-      );
-
-      if (indice === -1) {
-        pendente = null;
-
-        status.textContent =
-          "Este paciente não está mais na fila. Selecione o próximo.";
-
-        renderizar();
-        return;
-      }
-
-      // Retira o paciente chamado da fila.
-      estado.filas[tipo].splice(indice, 1);
-
-      /*
-       * Avança o ciclo somente se as duas filas estavam
-       * disponíveis quando o paciente foi selecionado.
-       */
-      if (pendente.contarAlternancia) {
-        estado.sequencia = (estado.sequencia + 1) % 3;
-      }
-
-      const chamada = {
-        senha: pendente.senha,
-        nome: pendente.nome,
-        tipo: pendente.tipo,
-        guiche,
-        chamadaEm: new Date().toISOString()
-      };
-
-      estado.atual = chamada;
-
-      estado.chamadas.unshift(chamada);
-      estado.chamadas = estado.chamadas.slice(0, 3);
-
-      salvarEstado(estado, "chamada");
-
-      pendente = null;
-
-      status.textContent =
-        `Senha ${chamada.senha} direcionada ao Guichê ${guiche}.`;
-
-      renderizar();
-    });
+  $("recall").addEventListener("click", async () => {
+    if (!state || !state.atual) return;
+    try {
+      await ref.transaction(raw => {
+        const s = normalize(raw);
+        if (!s.atual) return;
+        s.atual = {...s.atual,rechamadaEm:new Date().toISOString()};
+        return s;
+      });
+      $("status").textContent = "Rechamada enviada.";
+    } catch(e) { $("status").textContent = "Erro ao rechamar."; }
   });
 
-  // Rechama a senha atualmente exibida, sem alterar as filas.
-  rechamar.addEventListener("click", () => {
-    const estado = lerEstado();
-
-    if (!estado.atual) {
-      status.textContent = "Não há chamada atual para rechamar.";
-      return;
-    }
-
-    estado.atual = {
-      ...estado.atual,
-      rechamadaEm: new Date().toISOString()
-    };
-
-    salvarEstado(estado, "rechamada");
-
-    status.textContent =
-      `Rechamada: ${estado.atual.senha} - Guichê ${estado.atual.guiche}.`;
+  $("reset").addEventListener("click", async () => {
+    if (!confirm("Deseja limpar todas as filas, contadores e histórico?")) return;
+    pending = null;
+    try { await save(initial()); $("status").textContent = "Filas e histórico resetados."; }
+    catch(e) { $("status").textContent = "Erro ao resetar."; }
+    render();
   });
 
-  // Limpa as filas, os contadores, a chamada atual e o histórico.
-  document.getElementById("resetar").addEventListener("click", () => {
-    const confirmar = window.confirm(
-      "Deseja realmente limpar todas as filas, os contadores e o histórico de chamadas?"
-    );
-
-    if (!confirmar) return;
-
-    pendente = null;
-
-    salvarEstado(estadoInicial(), "reset");
-
-    status.textContent = "Filas e histórico resetados.";
-
-    renderizar();
-  });
-
-  // Atualiza a interface quando outra página envia uma mensagem.
-  if (canal) {
-    canal.onmessage = () => {
-      renderizar();
-    };
-  }
-
-  // Atualiza a interface quando o localStorage muda em outra aba.
-  window.addEventListener("storage", evento => {
-    if (evento.key === STORAGE_KEY) {
-      renderizar();
-    }
-  });
-
-  renderizar();
+  ref.on("value", snap => { state = normalize(snap.val()); render(); },
+    err => { $("status").textContent = "Erro de conexão com o banco: " + err.message; });
 })();
 </script>
 </body>

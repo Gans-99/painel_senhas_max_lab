@@ -3,316 +3,191 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Max Lab | Totem de Senhas</title>
-
 <style>
-:root {
-  --laranja: #F58220;
-  --vermelho: #dc3545;
-  --azul: #1677d2;
-  --fundo: #f4f6f9;
-  --texto: #263548;
-}
+:root{--orange:#F58220;--blue:#1677d2;--red:#dc3545;--purple:#7B3FA1}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px;font-family:Arial,sans-serif;background:#f4f6f9;color:#263548}
+.container{width:100%;max-width:650px;padding:35px;background:white;border-radius:24px;box-shadow:0 12px 40px #172b4d12;text-align:center}
+.logo{color:var(--orange);font-size:36px;font-weight:900}
+h1{font-size:29px;margin:18px 0 8px}
+.subtitulo{color:#64748b;font-size:18px;line-height:1.5;margin-bottom:25px}
+input{width:100%;padding:20px;font-size:22px;border:2px solid #dbe3ef;border-radius:14px;margin-bottom:18px}
+.botoes{display:grid;grid-template-columns:1fr;gap:12px}
+button{min-height:85px;padding:16px;border:0;border-radius:15px;color:white;font-size:22px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+.normal{background:var(--blue)}.preferencial{background:var(--red)}.idoso{background:var(--purple)}
+.mensagem{display:none;margin-top:22px;padding:20px;background:#fff4e8;color:#7c3e0b;border:2px solid #ffd2a6;border-radius:16px;font-size:20px;font-weight:bold}
+.codigo{display:block;margin:10px;color:var(--orange);font-size:clamp(42px,10vw,64px);font-weight:900}
+#status{margin-top:14px;color:#64748b}
+@media(min-width:520px){.botoes{grid-template-columns:repeat(3,1fr)}button{font-size:18px;min-height:115px}}
+#fullscreenBtn {
+  position: fixed;
+  bottom: 12px;
+  left: 12px;
+  z-index: 9999;
 
-* {
-  box-sizing: border-box;
-}
+  min-height: 0;
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  color: #666;
+  background: rgba(240, 240, 240, 0.65);
   font-family: Arial, sans-serif;
-  background: var(--fundo);
-  color: var(--texto);
-}
+  font-size: 12px;
+  font-weight: normal;
 
-.container {
-  width: 100%;
-  max-width: 650px;
-  padding: 40px;
-  background: white;
-  border-radius: 25px;
-  box-shadow: 0 12px 40px #172b4d12;
-  text-align: center;
-}
-
-.logo {
-  color: var(--laranja);
-  font-size: 38px;
-  font-weight: 900;
-  margin-bottom: 8px;
-}
-
-h1 {
-  font-size: 30px;
-  margin: 18px 0 10px;
-}
-
-.subtitulo {
-  color: #64748b;
-  font-size: 18px;
-  line-height: 1.5;
-  margin-bottom: 30px;
-}
-
-input {
-  width: 100%;
-  padding: 22px;
-  font-size: 24px;
-  border: 2px solid #dbe3ef;
-  border-radius: 14px;
-  outline: none;
-  margin-bottom: 22px;
-}
-
-input:focus {
-  border-color: var(--laranja);
-}
-
-.botoes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
-button {
-  min-height: 125px;
-  padding: 20px 12px;
-  border: none;
-  border-radius: 18px;
-  color: white;
-  font-size: 23px;
-  font-weight: bold;
+  opacity: 0.55;
   cursor: pointer;
-  transition: transform .15s, opacity .15s;
+  box-shadow: none;
 }
 
-button:active:not(:disabled) {
-  transform: scale(.97);
-}
-
-button:disabled {
-  opacity: .4;
-  cursor: not-allowed;
-}
-
-.normal {
-  background: var(--azul);
-}
-
-.preferencial {
-  background: var(--vermelho);
-}
-
-.mensagem {
-  display: none;
-  margin-top: 25px;
-  padding: 24px 18px;
-  background: #fff4e8;
-  color: #7c3e0b;
-  border: 2px solid #ffd2a6;
-  border-radius: 16px;
-  font-size: 21px;
-  font-weight: bold;
-  line-height: 1.5;
-}
-
-.codigo-senha {
-  display: block;
-  margin: 12px 0;
-  color: var(--laranja);
-  font-size: clamp(42px, 10vw, 64px);
-  font-weight: 900;
-  letter-spacing: 2px;
-}
-
-@media (max-width: 520px) {
-  .container {
-    padding: 25px 18px;
-  }
-
-  .botoes {
-    grid-template-columns: 1fr;
-  }
-
-  button {
-    min-height: 95px;
-  }
+#fullscreenBtn:hover {
+  opacity: 1;
+  background: rgba(230, 230, 230, 0.95);
 }
 </style>
 </head>
-
 <body>
+    <button id="fullscreenBtn" type="button">⛶ Tela cheia</button>
 <main class="container">
   <div class="logo">MAX LAB</div>
-
   <h1>Bem-vindo(a)!</h1>
-
-  <p class="subtitulo">
-    Digite seu nome e selecione o tipo de atendimento.
-  </p>
-
-  <input
-    type="text"
-    id="nome"
-    placeholder="Digite seu nome"
-    autocomplete="off"
-    maxlength="100"
-    aria-label="Digite seu nome"
-  >
-
+  <p class="subtitulo">Digite seu nome e selecione o tipo de atendimento.</p>
+  <input id="nome" maxlength="100" autocomplete="off" placeholder="Digite seu nome" aria-label="Digite seu nome">
   <div class="botoes">
-    <button class="normal" id="btnNormal" disabled>
-      NORMAL
-    </button>
-
-    <button class="preferencial" id="btnPreferencial" disabled>
-      PREFERENCIAL
-    </button>
+    <button class="normal" id="btnG" disabled>NORMAL</button>
+    <button class="preferencial" id="btnP" disabled>PREFERENCIAL</button>
+    <button class="idoso" id="btnE" disabled>PREFERENCIAL +80</button>
   </div>
-
   <div class="mensagem" id="mensagem" role="status" aria-live="polite">
     Cadastro realizado com sucesso!
-    <span class="codigo-senha" id="codigoSenha"></span>
+    <span class="codigo" id="codigo"></span>
     Aguarde na recepção.
   </div>
+  <div id="status" role="status"></div>
 </main>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 (() => {
-  "use strict";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
+    authDomain: "maxlab-senhas.firebaseapp.com",
+    databaseURL: "https://maxlab-senhas-default-rtdb.firebaseio.com",
+    projectId: "maxlab-senhas",
+    storageBucket: "maxlab-senhas.firebasestorage.app",
+    messagingSenderId: "403118178001",
+    appId: "1:403118178001:web:c99c52fa089b778e8d4ff0"
+  };
 
-  const STORAGE_KEY = "maxlab_senhas_v1";
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const stateRef = db.ref("maxlab/state");
 
-  const nomeInput = document.getElementById("nome");
-  const btnNormal = document.getElementById("btnNormal");
-  const btnPreferencial = document.getElementById("btnPreferencial");
+  const nome = document.getElementById("nome");
+  const buttons = {
+    G: document.getElementById("btnG"),
+    P: document.getElementById("btnP"),
+    E: document.getElementById("btnE")
+  };
   const mensagem = document.getElementById("mensagem");
-  const codigoSenha = document.getElementById("codigoSenha");
+  const codigo = document.getElementById("codigo");
+  const status = document.getElementById("status");
+  let timer;
 
-  let canal = null;
-  let timeoutMensagem = null;
-
-  try {
-    canal = new BroadcastChannel("maxlab_senhas");
-  } catch (erro) {
-    console.warn("BroadcastChannel indisponível.", erro);
-  }
-
-  function estadoInicial() {
+  function initialState() {
     return {
-      filas: { G: [], P: [] },
-      contadores: { G: 0, P: 0 },
+      filas: { G: [], P: [], E: [] },
+      contadores: { G: 0, P: 0, E: 0 },
       chamadas: [],
-      atual: null,
-      sequencia: 0
+      atual: null
     };
   }
 
-  function lerEstado() {
-    try {
-      const salvo = localStorage.getItem(STORAGE_KEY);
-
-      if (!salvo) return estadoInicial();
-
-      const dados = JSON.parse(salvo);
-
-      if (!dados.filas || !dados.contadores) {
-        return estadoInicial();
-      }
-
-      dados.filas.G ||= [];
-      dados.filas.P ||= [];
-      dados.contadores.G ||= 0;
-      dados.contadores.P ||= 0;
-      dados.chamadas ||= [];
-      dados.sequencia ||= 0;
-
-      return dados;
-    } catch (erro) {
-      console.error("Erro ao ler os dados.", erro);
-      return estadoInicial();
-    }
+  function enableButtons() {
+    const enabled = nome.value.trim().length > 0;
+    Object.values(buttons).forEach(b => b.disabled = !enabled);
   }
 
-  function salvarEstado(estado) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+  async function emitir(tipo) {
+    const pacienteNome = nome.value.trim();
+    if (!pacienteNome) return;
 
-    if (canal) {
-      canal.postMessage({
-        tipo: "atualizacao",
-        estado
+    Object.values(buttons).forEach(b => b.disabled = true);
+    status.textContent = "Registrando senha…";
+
+    try {
+      let senhaGerada = "";
+      await stateRef.transaction(state => {
+        state = state || initialState();
+        state.filas = state.filas || {};
+        state.contadores = state.contadores || {};
+        ["G", "P", "E"].forEach(t => {
+          state.filas[t] = Array.isArray(state.filas[t]) ? state.filas[t] : [];
+          state.contadores[t] = Number(state.contadores[t]) || 0;
+        });
+        state.chamadas = state.chamadas || [];
+        state.contadores[tipo]++;
+        senhaGerada = tipo + "-" + String(state.contadores[tipo]).padStart(3, "0");
+        state.filas[tipo].push({
+          nome: pacienteNome,
+          senha: senhaGerada,
+          tipo,
+          criadoEm: new Date().toISOString()
+        });
+        return state;
       });
+
+      nome.value = "";
+      mensagem.style.display = "block";
+      codigo.textContent = senhaGerada;
+      status.textContent = "";
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        mensagem.style.display = "none";
+        codigo.textContent = "";
+      }, 10000);
+    } catch (err) {
+      console.error(err);
+      status.textContent = "Erro ao cadastrar. Verifique a conexão e tente novamente.";
+    } finally {
+      enableButtons();
+      nome.focus();
     }
   }
 
-  function atualizarBotoes() {
-    const habilitado = nomeInput.value.trim().length > 0;
-
-    btnNormal.disabled = !habilitado;
-    btnPreferencial.disabled = !habilitado;
-  }
-
-  function mostrarConfirmacao(senha) {
-    codigoSenha.textContent = senha;
-    mensagem.style.display = "block";
-
-    clearTimeout(timeoutMensagem);
-
-    timeoutMensagem = setTimeout(() => {
-      mensagem.style.display = "none";
-      codigoSenha.textContent = "";
-    }, 10000);
-  }
-
-  function gerarSenha(tipo) {
-    const nome = nomeInput.value.trim();
-
-    if (!nome) {
-      nomeInput.focus();
-      return;
-    }
-
-    const estado = lerEstado();
-
-    estado.contadores[tipo]++;
-
-    const numero = String(estado.contadores[tipo]).padStart(3, "0");
-    const senha = `${tipo}-${numero}`;
-
-    estado.filas[tipo].push({
-      nome,
-      senha,
-      tipo,
-      criadoEm: new Date().toISOString()
-    });
-
-    try {
-      salvarEstado(estado);
-
-      nomeInput.value = "";
-      atualizarBotoes();
-
-      mostrarConfirmacao(senha);
-      nomeInput.focus();
-    } catch (erro) {
-      console.error("Não foi possível salvar a senha.", erro);
-      alert("Não foi possível cadastrar a senha. Tente novamente.");
-    }
-  }
-
-  nomeInput.addEventListener("input", atualizarBotoes);
-
-  btnNormal.addEventListener("click", () => gerarSenha("G"));
-  btnPreferencial.addEventListener("click", () => gerarSenha("P"));
-
-  atualizarBotoes();
+  nome.addEventListener("input", enableButtons);
+  buttons.G.addEventListener("click", () => emitir("G"));
+  buttons.P.addEventListener("click", () => emitir("P"));
+  buttons.E.addEventListener("click", () => emitir("E"));
+  enableButtons();
 })();
 </script>
+<script>
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+
+  fullscreenBtn.addEventListener("click", async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (error) {
+      alert("Não foi possível ativar a tela cheia neste dispositivo.");
+    }
+  });
+
+  document.addEventListener("fullscreenchange", () => {
+    fullscreenBtn.textContent = document.fullscreenElement
+      ? "⛶ Sair da tela cheia"
+      : "⛶ Tela cheia";
+  });
+</script>
+
 </body>
 </html>
