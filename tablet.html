@@ -2,8 +2,14 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+  >
+
   <meta name="theme-color" content="#f4f6f9">
+
   <title>Max Lab | Totem de Senhas</title>
 
   <style>
@@ -17,239 +23,640 @@
       --key-border: #d5deea;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
+
+    /* =========================================================
+       TELA FIXA - SEM ROLAGEM
+       ========================================================= */
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      padding: clamp(8px, 1.4vw, 22px);
+      padding: clamp(6px, 1vw, 16px);
       font-family: Arial, sans-serif;
       background: #f4f6f9;
       color: var(--ink);
+
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: center;
+
+      touch-action: manipulation;
     }
+
+    /* =========================================================
+       CONTAINER PRINCIPAL
+       ========================================================= */
 
     .container {
       width: 100%;
-      max-width: 1500px;
-      padding: clamp(14px, 2vw, 30px);
-      background: #fff;
-      border-radius: 24px;
+      max-width: 1600px;
+      height: 100%;
+      min-height: 0;
+
+      padding: clamp(10px, 1.5vw, 22px);
+
+      background: #ffffff;
+      border-radius: 20px;
+
       box-shadow: 0 12px 40px #172b4d12;
+
       text-align: center;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow: hidden;
     }
 
+    /* =========================================================
+       CABEÇALHO
+       ========================================================= */
+
     .logo {
+      flex: 0 0 auto;
+
       color: var(--orange);
-      font-size: clamp(30px, 3.3vw, 52px);
+
+      font-size: clamp(25px, 3.1vw, 46px);
       font-weight: 900;
+
       letter-spacing: 1px;
       line-height: 1;
     }
 
     h1 {
-      font-size: clamp(28px, 2.8vw, 44px);
-      margin: 10px 0 4px;
+      flex: 0 0 auto;
+
+      font-size: clamp(23px, 2.5vw, 38px);
+
+      margin: 7px 0 2px;
     }
 
     .subtitulo {
+      flex: 0 0 auto;
+
       color: var(--muted);
-      font-size: clamp(17px, 1.6vw, 24px);
-      line-height: 1.35;
-      margin: 0 0 16px;
+
+      font-size: clamp(14px, 1.45vw, 22px);
+
+      line-height: 1.25;
+
+      margin: 0 0 10px;
     }
 
+    /* =========================================================
+       CAMPO DO NOME
+       ========================================================= */
+
     #nome {
+      flex: 0 0 auto;
+
       display: block;
+
       width: 100%;
-      padding: clamp(14px, 1.5vw, 22px);
-      font-size: clamp(23px, 2.1vw, 32px);
-      border: 3px solid #dbe3ef;
-      border-radius: 15px;
-      margin: 0 0 14px;
+
+      padding: clamp(10px, 1.2vw, 17px);
+
+      font-size: clamp(21px, 2vw, 31px);
+
+      border: 2px solid #dbe3ef;
+      border-radius: 13px;
+
+      margin: 0 0 10px;
+
       color: var(--ink);
-      background: #fff;
+      background: #ffffff;
+
       outline: none;
+
       text-align: left;
+
       cursor: default;
     }
 
-    #nome:focus { border-color: var(--blue); }
+    #nome:focus {
+      border-color: var(--blue);
+    }
+
+    /* =========================================================
+       BOTÕES DE TIPO DE SENHA
+       ========================================================= */
 
     .botoes {
+      flex: 0 0 auto;
+
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: clamp(8px, 1.1vw, 16px);
-      margin-bottom: 14px;
+
+      grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+      gap: clamp(7px, 1vw, 14px);
+
+      margin-bottom: 10px;
     }
 
     button {
       border: 0;
-      border-radius: 14px;
+
+      border-radius: 12px;
+
       font-family: inherit;
+
       font-weight: 800;
+
       cursor: pointer;
+
       touch-action: manipulation;
+
       -webkit-tap-highlight-color: transparent;
+
+      user-select: none;
     }
 
     .botoes button {
-      min-height: clamp(76px, 9vw, 125px);
-      padding: 12px 8px;
-      color: #fff;
-      font-size: clamp(19px, 1.9vw, 29px);
-      line-height: 1.15;
+      min-width: 0;
+
+      min-height: clamp(60px, 9vh, 105px);
+
+      padding: 9px 6px;
+
+      color: #ffffff;
+
+      font-size: clamp(17px, 1.8vw, 27px);
+
+      line-height: 1.12;
+
       box-shadow: 0 4px 0 #00000012;
     }
 
     button:disabled {
-      opacity: .42;
+      opacity: 0.4;
       cursor: not-allowed;
     }
 
-    .normal { background: var(--blue); }
-    .preferencial { background: var(--red); }
-    .idoso { background: var(--purple); }
+    .normal {
+      background: var(--blue);
+    }
+
+    .preferencial {
+      background: var(--red);
+    }
+
+    .idoso {
+      background: var(--purple);
+    }
+
+    /* =========================================================
+       TECLADO VIRTUAL
+       ========================================================= */
 
     .teclado {
-      padding: clamp(8px, 1.2vw, 18px);
-      border-radius: 18px;
+      flex: 1 1 auto;
+
+      min-height: 0;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: space-between;
+
+      gap: clamp(4px, 0.65vh, 8px);
+
+      padding: clamp(7px, 0.9vw, 13px);
+
+      border-radius: 15px;
+
       background: #e5ebf3;
+
       border: 1px solid #d8e0eb;
+
+      overflow: hidden;
     }
 
     .linha-teclas {
-      display: flex;
-      justify-content: center;
-      gap: clamp(5px, .65vw, 10px);
-      margin-bottom: clamp(5px, .65vw, 10px);
-    }
+      flex: 1 1 0;
 
-    .linha-teclas:last-child { margin-bottom: 0; }
+      min-height: 0;
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: clamp(4px, 0.55vw, 8px);
+    }
 
     .tecla {
       flex: 1 1 0;
+
       min-width: 0;
-      min-height: clamp(46px, 5.8vw, 78px);
-      padding: 5px 3px;
-      background: #fff;
+      min-height: 0;
+
+      padding: 3px 2px;
+
+      background: #ffffff;
+
       color: #17395f;
+
       border: 1px solid var(--key-border);
-      border-bottom-width: 4px;
-      border-radius: 11px;
-      font-size: clamp(20px, 2vw, 31px);
+
+      border-bottom-width: 3px;
+
+      border-radius: 9px;
+
+      font-size: clamp(18px, 2vw, 30px);
+
       font-weight: 700;
+
       box-shadow: 0 1px 0 #cbd5e1;
     }
 
     .tecla:active {
       transform: translateY(2px);
-      border-bottom-width: 2px;
+
+      border-bottom-width: 1px;
+
       background: #f2f7ff;
     }
 
     .tecla.acao {
       flex: 1.45 1 0;
+
       background: #cbd7e7;
+
       color: #17395f;
-      font-size: clamp(14px, 1.35vw, 21px);
+
+      font-size: clamp(12px, 1.25vw, 19px);
     }
 
-    .tecla.espaco { flex: 4 1 0; }
+    .tecla.espaco {
+      flex: 4 1 0;
+    }
 
     .tecla.ok {
       flex: 1.8 1 0;
+
       background: var(--blue);
-      color: #fff;
+
+      color: #ffffff;
+
       border-color: #1266b6;
     }
 
-    .mensagem {
-      display: none;
-      margin-top: 18px;
-      padding: 18px;
-      background: #fff4e8;
-      color: #7c3e0b;
-      border: 2px solid #ffd2a6;
-      border-radius: 16px;
-      font-size: clamp(20px, 2vw, 30px);
-      font-weight: bold;
-    }
-
-    .codigo {
-      display: block;
-      margin: 10px;
-      color: var(--orange);
-      font-size: clamp(48px, 6vw, 82px);
-      font-weight: 900;
-    }
+    /* =========================================================
+       STATUS
+       ========================================================= */
 
     #status {
-      min-height: 1.3em;
-      margin-top: 10px;
+      flex: 0 0 auto;
+
+      min-height: 1.1em;
+
+      margin-top: 5px;
+
       color: var(--muted);
-      font-size: clamp(16px, 1.4vw, 22px);
+
+      font-size: clamp(12px, 1.2vw, 18px);
     }
+
+    /* =========================================================
+       BOTÃO TELA CHEIA
+       ========================================================= */
 
     #fullscreenBtn {
       position: fixed;
-      bottom: 10px;
-      left: 10px;
-      z-index: 9999;
+
+      bottom: 7px;
+      left: 7px;
+
+      z-index: 10001;
+
       min-height: 0;
-      padding: 8px 11px;
-      border: 1px solid rgba(0, 0, 0, .08);
+
+      padding: 6px 9px;
+
+      border: 1px solid rgba(0, 0, 0, 0.08);
+
       border-radius: 7px;
+
       color: #666;
-      background: rgba(240, 240, 240, .82);
-      font-size: 13px;
+
+      background: rgba(240, 240, 240, 0.82);
+
+      font-size: 12px;
+
       font-weight: normal;
-      opacity: .65;
+
+      opacity: 0.5;
+
       box-shadow: none;
     }
 
     #fullscreenBtn:hover {
       opacity: 1;
-      background: rgba(230, 230, 230, .98);
     }
 
-    /* Ajustes para tablets em modo horizontal com pouca altura */
-    @media (orientation: landscape) and (max-height: 720px) {
-      body { padding: 7px; }
-      .container { padding: 10px 18px; border-radius: 16px; }
-      .logo { font-size: 28px; }
-      h1 { font-size: 26px; margin: 5px 0 2px; }
-      .subtitulo { font-size: 15px; margin-bottom: 8px; }
-      #nome { padding: 10px 14px; font-size: 21px; margin-bottom: 8px; }
-      .botoes { gap: 8px; margin-bottom: 8px; }
-      .botoes button { min-height: 58px; font-size: 19px; padding: 8px; }
-      .teclado { padding: 7px; }
-      .linha-teclas { gap: 5px; margin-bottom: 5px; }
-      .tecla { min-height: 39px; font-size: 20px; border-radius: 8px; }
-      .tecla.acao { font-size: 13px; }
+    /* =========================================================
+       JANELA DE CONFIRMAÇÃO DA SENHA
+       ========================================================= */
+
+    .overlay {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 10000;
+
+      display: none;
+
+      align-items: center;
+
+      justify-content: center;
+
+      padding: 18px;
+
+      background: rgba(13, 36, 62, 0.78);
+
+      -webkit-backdrop-filter: blur(7px);
+
+      backdrop-filter: blur(7px);
+
+      overflow: hidden;
     }
 
-    /* Mantém a página utilizável caso seja aberta na vertical */
+    .overlay.visivel {
+      display: flex;
+    }
+
+    .confirmacao {
+      width: min(780px, 92vw);
+
+      max-height: 90%;
+
+      overflow: hidden;
+
+      padding: clamp(22px, 4vw, 48px);
+
+      border-radius: 22px;
+
+      background: #ffffff;
+
+      box-shadow: 0 18px 70px #0005;
+
+      text-align: center;
+    }
+
+    /* =========================================================
+       ÍCONE DE CONFIRMAÇÃO
+       ========================================================= */
+
+    .check {
+      width: clamp(48px, 6vw, 76px);
+
+      height: clamp(48px, 6vw, 76px);
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      margin: 0 auto 12px;
+
+      border-radius: 50%;
+
+      background: #0aa66a;
+
+      color: #ffffff;
+
+      font-size: clamp(30px, 4vw, 52px);
+
+      font-weight: bold;
+    }
+
+    /* =========================================================
+       TEXTO DA CONFIRMAÇÃO
+       ========================================================= */
+
+    .confirmacao .rotulo {
+      margin: 0;
+
+      color: #17395f;
+
+      font-size: clamp(20px, 2.5vw, 34px);
+
+      font-weight: 700;
+    }
+
+    /* CÓDIGO DA SENHA */
+
+    #codigoConfirmacao {
+      display: block;
+
+      margin: 2px 0 8px;
+
+      color: var(--orange);
+
+      font-size: clamp(68px, 12vw, 150px);
+
+      font-weight: 900;
+
+      line-height: 1.05;
+
+      overflow-wrap: anywhere;
+    }
+
+    .separador {
+      height: 2px;
+
+      margin: 12px 0 15px;
+
+      background: #dce6f2;
+    }
+
+    /* NOME DO PACIENTE */
+
+    #nomeConfirmacao {
+      margin: 0;
+
+      color: #17395f;
+
+      font-size: clamp(25px, 3.5vw, 46px);
+
+      font-weight: 800;
+
+      overflow-wrap: anywhere;
+    }
+
+    .aguarde {
+      margin: 14px 0 0;
+
+      color: #38516d;
+
+      font-size: clamp(17px, 2vw, 27px);
+    }
+
+    /* =========================================================
+       TABLET HORIZONTAL COM POUCA ALTURA
+       ========================================================= */
+
+    @media (max-height: 620px) and (orientation: landscape) {
+
+      body {
+        padding: 5px;
+      }
+
+      .container {
+        padding: 7px 12px;
+
+        border-radius: 13px;
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+
+      h1 {
+        font-size: 21px;
+
+        margin: 4px 0 1px;
+      }
+
+      .subtitulo {
+        font-size: 13px;
+
+        margin-bottom: 6px;
+      }
+
+      #nome {
+        padding: 8px 11px;
+
+        font-size: 19px;
+
+        margin-bottom: 6px;
+      }
+
+      .botoes {
+        margin-bottom: 6px;
+
+        gap: 6px;
+      }
+
+      .botoes button {
+        min-height: 48px;
+
+        font-size: 17px;
+      }
+
+      .teclado {
+        padding: 5px;
+
+        gap: 4px;
+      }
+
+      .linha-teclas {
+        gap: 4px;
+      }
+
+      .tecla {
+        font-size: 18px;
+
+        border-radius: 7px;
+      }
+
+      .tecla.acao {
+        font-size: 11px;
+      }
+
+      #status {
+        font-size: 11px;
+
+        margin-top: 3px;
+      }
+    }
+
+    /* =========================================================
+       SEGURANÇA PARA CASO ABRA NA VERTICAL
+       ========================================================= */
+
     @media (orientation: portrait) {
-      body { align-items: flex-start; }
-      .botoes { grid-template-columns: 1fr; }
-      .botoes button { min-height: 68px; }
-      .tecla { min-height: 48px; }
+
+      .container {
+        padding: 9px;
+      }
+
+      .botoes {
+        grid-template-columns: 1fr;
+      }
+
+      .botoes button {
+        min-height: 48px;
+      }
+
+      .tecla {
+        font-size: clamp(14px, 3vw, 21px);
+      }
+
+      .teclado {
+        gap: 4px;
+
+        padding: 5px;
+      }
+
+      .linha-teclas {
+        gap: 4px;
+      }
+
+      .tecla.acao {
+        font-size: 11px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <button id="fullscreenBtn" type="button">⛶ Tela cheia</button>
+
+  <!-- BOTÃO DE TELA CHEIA -->
+
+  <button
+    id="fullscreenBtn"
+    type="button"
+  >
+    ⛶ Tela cheia
+  </button>
+
+
+  <!-- =======================================================
+       TELA PRINCIPAL
+       ======================================================= -->
 
   <main class="container">
-    <div class="logo">MAX LAB</div>
-    <h1>Bem-vindo(a)!</h1>
+
+    <div class="logo">
+      MAX LAB
+    </div>
+
+    <h1>
+      Bem-vindo(a)!
+    </h1>
+
     <p class="subtitulo">
       Digite seu nome usando o teclado abaixo e selecione o tipo de atendimento.
     </p>
+
+
+    <!-- CAMPO DO NOME -->
 
     <input
       id="nome"
@@ -261,14 +668,59 @@
       inputmode="none"
     >
 
-    <div class="botoes" aria-label="Selecione o tipo de atendimento">
-      <button class="normal" id="btnG" type="button" disabled>NORMAL</button>
-      <button class="preferencial" id="btnP" type="button" disabled>PREFERENCIAL</button>
-      <button class="idoso" id="btnE" type="button" disabled>PREFERENCIAL +80</button>
+
+    <!-- =====================================================
+         TIPOS DE SENHA
+         ===================================================== -->
+
+    <div
+      class="botoes"
+      aria-label="Selecione o tipo de atendimento"
+    >
+
+      <button
+        class="normal"
+        id="btnG"
+        type="button"
+        disabled
+      >
+        NORMAL
+      </button>
+
+      <button
+        class="preferencial"
+        id="btnP"
+        type="button"
+        disabled
+      >
+        PREFERENCIAL
+      </button>
+
+      <button
+        class="idoso"
+        id="btnE"
+        type="button"
+        disabled
+      >
+        PREFERENCIAL +80
+      </button>
+
     </div>
 
-    <section class="teclado" aria-label="Teclado virtual">
+
+    <!-- =====================================================
+         TECLADO VIRTUAL
+         ===================================================== -->
+
+    <section
+      class="teclado"
+      aria-label="Teclado virtual"
+    >
+
+      <!-- LINHA 1 -->
+
       <div class="linha-teclas">
+
         <button class="tecla" type="button" data-key="Q">Q</button>
         <button class="tecla" type="button" data-key="W">W</button>
         <button class="tecla" type="button" data-key="E">E</button>
@@ -279,9 +731,14 @@
         <button class="tecla" type="button" data-key="I">I</button>
         <button class="tecla" type="button" data-key="O">O</button>
         <button class="tecla" type="button" data-key="P">P</button>
+
       </div>
 
+
+      <!-- LINHA 2 -->
+
       <div class="linha-teclas">
+
         <button class="tecla" type="button" data-key="A">A</button>
         <button class="tecla" type="button" data-key="S">S</button>
         <button class="tecla" type="button" data-key="D">D</button>
@@ -292,10 +749,22 @@
         <button class="tecla" type="button" data-key="K">K</button>
         <button class="tecla" type="button" data-key="L">L</button>
         <button class="tecla" type="button" data-key="Ç">Ç</button>
+
       </div>
 
+
+      <!-- LINHA 3 -->
+
       <div class="linha-teclas">
-        <button class="tecla acao" type="button" data-action="clear">LIMPAR</button>
+
+        <button
+          class="tecla acao"
+          type="button"
+          data-action="clear"
+        >
+          LIMPAR
+        </button>
+
         <button class="tecla" type="button" data-key="Z">Z</button>
         <button class="tecla" type="button" data-key="X">X</button>
         <button class="tecla" type="button" data-key="C">C</button>
@@ -303,10 +772,22 @@
         <button class="tecla" type="button" data-key="B">B</button>
         <button class="tecla" type="button" data-key="N">N</button>
         <button class="tecla" type="button" data-key="M">M</button>
-        <button class="tecla acao" type="button" data-action="backspace">⌫ APAGAR</button>
+
+        <button
+          class="tecla acao"
+          type="button"
+          data-action="backspace"
+        >
+          ⌫ APAGAR
+        </button>
+
       </div>
 
+
+      <!-- LINHA 4 - ACENTOS -->
+
       <div class="linha-teclas">
+
         <button class="tecla acao" type="button" data-key="Á">Á</button>
         <button class="tecla acao" type="button" data-key="É">É</button>
         <button class="tecla acao" type="button" data-key="Í">Í</button>
@@ -317,196 +798,752 @@
         <button class="tecla acao" type="button" data-key="Â">Â</button>
         <button class="tecla acao" type="button" data-key="Ê">Ê</button>
         <button class="tecla acao" type="button" data-key="Ô">Ô</button>
+
       </div>
+
+
+      <!-- LINHA 5 -->
 
       <div class="linha-teclas">
-        <button class="tecla acao" type="button" data-action="hyphen">-</button>
-        <button class="tecla espaco" type="button" data-action="space">ESPAÇO</button>
-        <button class="tecla ok" type="button" data-action="done">OK</button>
+
+        <button
+          class="tecla acao"
+          type="button"
+          data-action="hyphen"
+        >
+          -
+        </button>
+
+        <button
+          class="tecla espaco"
+          type="button"
+          data-action="space"
+        >
+          ESPAÇO
+        </button>
+
+        <button
+          class="tecla ok"
+          type="button"
+          data-action="done"
+        >
+          OK
+        </button>
+
       </div>
+
     </section>
 
-    <div class="mensagem" id="mensagem" role="status" aria-live="polite">
-      Cadastro realizado com sucesso!
-      <span class="codigo" id="codigo"></span>
-      Aguarde na recepção.
-    </div>
 
-    <div id="status" role="status" aria-live="polite"></div>
+    <!-- STATUS -->
+
+    <div
+      id="status"
+      role="status"
+      aria-live="polite"
+    ></div>
+
   </main>
 
+
+  <!-- =======================================================
+       JANELA DE CONFIRMAÇÃO
+       ======================================================= -->
+
+  <div
+    class="overlay"
+    id="overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="codigoConfirmacao"
+  >
+
+    <section class="confirmacao">
+
+      <div
+        class="check"
+        aria-hidden="true"
+      >
+        ✓
+      </div>
+
+      <p class="rotulo">
+        Sua senha é:
+      </p>
+
+      <strong id="codigoConfirmacao"></strong>
+
+      <div class="separador"></div>
+
+      <p id="nomeConfirmacao"></p>
+
+      <p class="aguarde">
+        Aguarde na recepção.
+      </p>
+
+    </section>
+
+  </div>
+
+
+  <!-- =======================================================
+       FIREBASE
+       ======================================================= -->
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
+
   <script>
+
     (() => {
+
+      /* =====================================================
+         CONFIGURAÇÃO FIREBASE
+         ===================================================== */
+
       const firebaseConfig = {
-        apiKey: "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
-        authDomain: "maxlab-senhas.firebaseapp.com",
-        databaseURL: "https://maxlab-senhas-default-rtdb.firebaseio.com",
-        projectId: "maxlab-senhas",
-        storageBucket: "maxlab-senhas.firebasestorage.app",
-        messagingSenderId: "403118178001",
-        appId: "1:403118178001:web:c99c52fa089b778e8d4ff0"
+
+        apiKey:
+          "AIzaSyBCQVEjkzdG-OshK9HgXwto6Ez9CzjuCjo",
+
+        authDomain:
+          "maxlab-senhas.firebaseapp.com",
+
+        databaseURL:
+          "https://maxlab-senhas-default-rtdb.firebaseio.com",
+
+        projectId:
+          "maxlab-senhas",
+
+        storageBucket:
+          "maxlab-senhas.firebasestorage.app",
+
+        messagingSenderId:
+          "403118178001",
+
+        appId:
+          "1:403118178001:web:c99c52fa089b778e8d4ff0"
       };
+
 
       firebase.initializeApp(firebaseConfig);
 
+
       const db = firebase.database();
-      const stateRef = db.ref("maxlab/state");
-      const nome = document.getElementById("nome");
+
+      const stateRef =
+        db.ref("maxlab/state");
+
+
+      /* =====================================================
+         ELEMENTOS
+         ===================================================== */
+
+      const nome =
+        document.getElementById("nome");
+
+
       const buttons = {
-        G: document.getElementById("btnG"),
-        P: document.getElementById("btnP"),
-        E: document.getElementById("btnE")
+
+        G:
+          document.getElementById("btnG"),
+
+        P:
+          document.getElementById("btnP"),
+
+        E:
+          document.getElementById("btnE")
+
       };
-      const mensagem = document.getElementById("mensagem");
-      const codigo = document.getElementById("codigo");
-      const status = document.getElementById("status");
+
+
+      const status =
+        document.getElementById("status");
+
+
+      const overlay =
+        document.getElementById("overlay");
+
+
+      const codigoConfirmacao =
+        document.getElementById("codigoConfirmacao");
+
+
+      const nomeConfirmacao =
+        document.getElementById("nomeConfirmacao");
+
+
       let timer;
 
+
+      /* =====================================================
+         ESTADO INICIAL
+         ===================================================== */
+
       function initialState() {
+
         return {
-          filas: { G: [], P: [], E: [] },
-          contadores: { G: 0, P: 0, E: 0 },
+
+          filas: {
+
+            G: [],
+            P: [],
+            E: []
+
+          },
+
+          contadores: {
+
+            G: 0,
+            P: 0,
+            E: 0
+
+          },
+
           chamadas: [],
+
           atual: null
+
         };
+
       }
+
+
+      /* =====================================================
+         HABILITA/DESABILITA BOTÕES DE SENHA
+         ===================================================== */
 
       function enableButtons() {
-        const enabled = nome.value.trim().length > 0;
-        Object.values(buttons).forEach(button => {
-          button.disabled = !enabled;
-        });
+
+        const liberado =
+          nome.value.trim().length > 0;
+
+
+        Object.values(buttons)
+          .forEach(button => {
+
+            button.disabled =
+              !liberado;
+
+          });
+
       }
+
+
+      /* =====================================================
+         INSERIR LETRA NO CAMPO
+         ===================================================== */
 
       function insertText(text) {
-        if (nome.value.length >= 100) return;
 
-        nome.value += text;
-        enableButtons();
-        status.textContent = "";
-      }
-
-      document.querySelectorAll(".tecla").forEach(key => {
-        key.addEventListener("click", () => {
-          const value = key.dataset.key;
-          const action = key.dataset.action;
-
-          if (value) {
-            insertText(value);
-          } else if (action === "space") {
-            if (nome.value.length > 0 && !nome.value.endsWith(" ")) {
-              insertText(" ");
-            }
-          } else if (action === "backspace") {
-            nome.value = nome.value.slice(0, -1);
-            enableButtons();
-            status.textContent = "";
-          } else if (action === "clear") {
-            nome.value = "";
-            enableButtons();
-            status.textContent = "";
-          } else if (action === "hyphen") {
-            insertText("-");
-          } else if (action === "done") {
-            enableButtons();
-            status.textContent = nome.value.trim()
-              ? "Nome preenchido. Agora selecione o tipo de atendimento."
-              : "Toque nas letras para digitar seu nome.";
-          }
-        });
-      });
-
-      async function emitir(tipo) {
-        const pacienteNome = nome.value.trim();
-
-        if (!pacienteNome) {
-          status.textContent = "Digite seu nome usando o teclado abaixo.";
+        if (nome.value.length >= 100) {
           return;
         }
 
-        Object.values(buttons).forEach(button => {
-          button.disabled = true;
+
+        nome.value += text;
+
+
+        enableButtons();
+
+
+        status.textContent = "";
+
+      }
+
+
+      /* =====================================================
+         TECLADO VIRTUAL
+         ===================================================== */
+
+      document
+        .querySelectorAll(".tecla")
+        .forEach(key => {
+
+          key.addEventListener(
+            "click",
+            () => {
+
+              const value =
+                key.dataset.key;
+
+              const action =
+                key.dataset.action;
+
+
+              /* LETRA */
+
+              if (value) {
+
+                insertText(value);
+
+              }
+
+
+              /* ESPAÇO */
+
+              else if (
+                action === "space"
+              ) {
+
+                if (
+                  nome.value.length > 0 &&
+                  !nome.value.endsWith(" ")
+                ) {
+
+                  insertText(" ");
+
+                }
+
+              }
+
+
+              /* APAGAR */
+
+              else if (
+                action === "backspace"
+              ) {
+
+                nome.value =
+                  nome.value.slice(0, -1);
+
+
+                enableButtons();
+
+                status.textContent = "";
+
+              }
+
+
+              /* LIMPAR */
+
+              else if (
+                action === "clear"
+              ) {
+
+                nome.value = "";
+
+                enableButtons();
+
+                status.textContent = "";
+
+              }
+
+
+              /* HÍFEN */
+
+              else if (
+                action === "hyphen"
+              ) {
+
+                insertText("-");
+
+              }
+
+
+              /* OK */
+
+              else if (
+                action === "done"
+              ) {
+
+                enableButtons();
+
+
+                status.textContent =
+                  nome.value.trim()
+
+                    ? "Nome preenchido. Agora selecione o tipo de atendimento."
+
+                    : "Toque nas letras para digitar seu nome.";
+
+              }
+
+            }
+          );
+
         });
-        status.textContent = "Registrando senha…";
 
-        try {
-          let senhaGerada = "";
 
-          const resultado = await stateRef.transaction(state => {
-            state = state || initialState();
-            state.filas = state.filas || {};
-            state.contadores = state.contadores || {};
+      /* =====================================================
+         MOSTRAR SENHA NA TELA
+         ===================================================== */
 
-            ["G", "P", "E"].forEach(t => {
-              state.filas[t] = Array.isArray(state.filas[t]) ? state.filas[t] : [];
-              state.contadores[t] = Number(state.contadores[t]) || 0;
-            });
+      function mostrarConfirmacao(
+        senha,
+        pacienteNome
+      ) {
 
-            state.chamadas = Array.isArray(state.chamadas) ? state.chamadas : [];
-            state.contadores[tipo] += 1;
-            senhaGerada = tipo + "-" + String(state.contadores[tipo]).padStart(3, "0");
+        codigoConfirmacao.textContent =
+          senha;
 
-            state.filas[tipo].push({
-              nome: pacienteNome,
-              senha: senhaGerada,
-              tipo: tipo,
-              criadoEm: new Date().toISOString()
-            });
 
-            return state;
+        nomeConfirmacao.textContent =
+          pacienteNome;
+
+
+        /*
+         * Mostra a janela.
+         */
+
+        overlay.classList.add(
+          "visivel"
+        );
+
+
+        /*
+         * Garante que não exista
+         * mais de um temporizador.
+         */
+
+        clearTimeout(timer);
+
+
+        /*
+         * Depois de 10 segundos,
+         * retorna para a tela inicial.
+         */
+
+        timer = setTimeout(() => {
+
+          overlay.classList.remove(
+            "visivel"
+          );
+
+
+          codigoConfirmacao.textContent =
+            "";
+
+
+          nomeConfirmacao.textContent =
+            "";
+
+
+          status.textContent =
+            "Pronto para o próximo paciente.";
+
+        }, 10000);
+
+      }
+
+
+      /* =====================================================
+         EMITIR SENHA
+         ===================================================== */
+
+      async function emitir(tipo) {
+
+        const pacienteNome =
+          nome.value.trim();
+
+
+        if (!pacienteNome) {
+
+          status.textContent =
+            "Digite seu nome usando o teclado abaixo.";
+
+          return;
+
+        }
+
+
+        /*
+         * Desabilita os botões enquanto
+         * a senha está sendo registrada.
+         */
+
+        Object.values(buttons)
+          .forEach(button => {
+
+            button.disabled = true;
+
           });
 
+
+        document
+          .querySelectorAll(".tecla")
+          .forEach(key => {
+
+            key.disabled = true;
+
+          });
+
+
+        status.textContent =
+          "Registrando senha…";
+
+
+        try {
+
+          let senhaGerada = "";
+
+
+          /* ===============================================
+             TRANSAÇÃO FIREBASE
+             =============================================== */
+
+          const resultado =
+            await stateRef.transaction(
+              state => {
+
+                state =
+                  state || initialState();
+
+
+                state.filas =
+                  state.filas || {};
+
+
+                state.contadores =
+                  state.contadores || {};
+
+
+                ["G", "P", "E"]
+                  .forEach(t => {
+
+                    state.filas[t] =
+                      Array.isArray(
+                        state.filas[t]
+                      )
+                        ? state.filas[t]
+                        : [];
+
+
+                    state.contadores[t] =
+                      Number(
+                        state.contadores[t]
+                      ) || 0;
+
+                  });
+
+
+                state.chamadas =
+                  Array.isArray(
+                    state.chamadas
+                  )
+                    ? state.chamadas
+                    : [];
+
+
+                /*
+                 * Incrementa contador.
+                 */
+
+                state.contadores[tipo]++;
+
+
+                /*
+                 * Cria código.
+                 *
+                 * Exemplo:
+                 * G-001
+                 * P-001
+                 * E-001
+                 */
+
+                senhaGerada =
+                  tipo +
+                  "-" +
+                  String(
+                    state.contadores[tipo]
+                  ).padStart(3, "0");
+
+
+                /*
+                 * Adiciona paciente na fila.
+                 */
+
+                state.filas[tipo].push({
+
+                  nome:
+                    pacienteNome,
+
+                  senha:
+                    senhaGerada,
+
+                  tipo:
+
+                    tipo,
+
+                  criadoEm:
+                    new Date().toISOString()
+
+                });
+
+
+                return state;
+
+              }
+            );
+
+
+          /*
+           * Confirma se o Firebase realmente
+           * gravou a alteração.
+           */
+
           if (!resultado.committed) {
-            throw new Error("A gravação não foi confirmada pelo banco de dados.");
+
+            throw new Error(
+              "A gravação não foi confirmada pelo banco de dados."
+            );
+
           }
 
+
+          /* ===============================================
+             LIMPA CAMPO
+             =============================================== */
+
           nome.value = "";
-          mensagem.style.display = "block";
-          codigo.textContent = senhaGerada;
+
+
+          enableButtons();
+
+
           status.textContent = "";
 
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            mensagem.style.display = "none";
-            codigo.textContent = "";
-          }, 10000);
-        } catch (err) {
-          console.error(err);
-          status.textContent = "Erro ao cadastrar. Verifique a conexão e tente novamente.";
-        } finally {
-          enableButtons();
+
+          /* ===============================================
+             MOSTRA A SENHA
+             =============================================== */
+
+          mostrarConfirmacao(
+            senhaGerada,
+            pacienteNome
+          );
+
         }
+
+        catch (err) {
+
+          console.error(err);
+
+
+          status.textContent =
+            "Erro ao cadastrar. Verifique a conexão e tente novamente.";
+
+        }
+
+        finally {
+
+          /*
+           * Reativa teclado e botões.
+           */
+
+          document
+            .querySelectorAll(".tecla")
+            .forEach(key => {
+
+              key.disabled = false;
+
+            });
+
+
+          enableButtons();
+
+        }
+
       }
 
-      buttons.G.addEventListener("click", () => emitir("G"));
-      buttons.P.addEventListener("click", () => emitir("P"));
-      buttons.E.addEventListener("click", () => emitir("E"));
+
+      /* =====================================================
+         BOTÕES DE SENHA
+         ===================================================== */
+
+      buttons.G.addEventListener(
+        "click",
+        () => emitir("G")
+      );
+
+
+      buttons.P.addEventListener(
+        "click",
+        () => emitir("P")
+      );
+
+
+      buttons.E.addEventListener(
+        "click",
+        () => emitir("E")
+      );
+
+
+      /* Estado inicial */
 
       enableButtons();
+
     })();
 
-    const fullscreenBtn = document.getElementById("fullscreenBtn");
 
-    fullscreenBtn.addEventListener("click", async () => {
-      try {
-        if (!document.fullscreenElement) {
-          await document.documentElement.requestFullscreen();
-        } else {
-          await document.exitFullscreen();
+    /* =======================================================
+       TELA CHEIA
+       ======================================================= */
+
+    const fullscreenBtn =
+      document.getElementById(
+        "fullscreenBtn"
+      );
+
+
+    fullscreenBtn.addEventListener(
+      "click",
+      async () => {
+
+        try {
+
+          if (
+            !document.fullscreenElement
+          ) {
+
+            await document
+              .documentElement
+              .requestFullscreen();
+
+          }
+
+          else {
+
+            await document
+              .exitFullscreen();
+
+          }
+
         }
-      } catch (error) {
-        alert("Não foi possível ativar a tela cheia neste dispositivo.");
-      }
-    });
 
-    document.addEventListener("fullscreenchange", () => {
-      fullscreenBtn.textContent = document.fullscreenElement
-        ? "⛶ Sair da tela cheia"
-        : "⛶ Tela cheia";
-    });
+        catch (error) {
+
+          alert(
+            "Não foi possível ativar a tela cheia neste dispositivo."
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =======================================================
+       ATUALIZA TEXTO DO BOTÃO
+       ======================================================= */
+
+    document.addEventListener(
+      "fullscreenchange",
+      () => {
+
+        fullscreenBtn.textContent =
+          document.fullscreenElement
+
+            ? "⛶ Sair da tela cheia"
+
+            : "⛶ Tela cheia";
+
+      }
+    );
+
   </script>
+
 </body>
 </html>
