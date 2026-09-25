@@ -9,7 +9,7 @@
 :root{--orange:#F58220;--blue:#1677d2;--red:#dc3545;--purple:#7B3FA1;--green:#16834a}
 *{box-sizing:border-box}
 body{margin:0;padding:20px;font-family:Arial,sans-serif;background:#f2f5fa;color:#172b4d}
-main{max-width:1200px;margin:auto}
+main{max-width:1500px;margin:auto}
 header,.stats,.queues,.guiches{display:flex;gap:14px;flex-wrap:wrap}
 header{justify-content:space-between;align-items:center;margin-bottom:22px}
 h1{margin:0}.logo{color:var(--orange)}
@@ -24,18 +24,18 @@ button:disabled{opacity:.4;cursor:not-allowed}
 #pending{display:none;margin-top:18px;border:2px solid #dbe3ef;border-radius:12px;padding:18px}
 .guiches{justify-content:center;margin-top:12px}
 .guiches button{background:var(--orange);color:white}
-.queues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;align-items:start}.current{margin:0 0 18px;background:white;border-radius:15px;padding:18px;box-shadow:0 4px 18px #172b4d0b}.current-title{font-size:13px;text-transform:uppercase;color:#64748b;font-weight:bold}.current-ticket{font-size:32px;font-weight:900;margin-top:4px}.current-name{font-weight:bold;text-transform:uppercase;margin-top:3px}.current-wait{margin-top:8px;color:#64748b;font-variant-numeric:tabular-nums}.queues{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 .queue{padding:0;overflow:hidden;min-width:0}
 .qtitle{padding:18px;color:white;font-size:20px;font-weight:bold}
 .qG{background:var(--blue)}.qP{background:var(--red)}.qE{background:var(--purple)}
 .list{padding:12px;min-height:100px}
 .patient{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid #e3e9f2;border-radius:9px;padding:12px;margin-bottom:9px}
-.info{min-width:0;overflow-wrap:anywhere}.pname{font-weight:bold;text-transform:uppercase}.ticket{font-size:18px;font-weight:900;margin-top:5px}
-.done{background:var(--green);color:white;white-space:nowrap;font-size:13px}
+.info{min-width:0;overflow-wrap:anywhere}.pname{font-weight:bold;text-transform:uppercase}.ticket{font-size:18px;font-weight:900;margin-top:5px}.wait{font-size:14px;color:#64748b;margin-top:6px;font-variant-numeric:tabular-nums}.wait strong{color:#172b4d}
 .empty{color:#8190a5;text-align:center;padding:20px}
-#status{color:#64748b;margin-top:12px;min-height:18px}
+#status{color:#64748b;margin-top:12px;min-height:18px}.history{background:white;border-radius:15px;overflow:hidden;box-shadow:0 4px 18px #172b4d0b}.history-title{padding:18px;font-size:20px;font-weight:bold;background:#e8edf5}.history-list{padding:12px;max-height:520px;overflow:auto}.history-item{border:1px solid #e3e9f2;border-radius:9px;padding:11px;margin-bottom:9px}.history-ticket{font-weight:900;font-size:18px}.history-name{font-weight:bold;text-transform:uppercase;margin-top:3px;overflow-wrap:anywhere}.history-meta{font-size:12px;color:#64748b;margin-top:6px;line-height:1.45}.history-empty{color:#8190a5;text-align:center;padding:25px 10px}
 footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#8994a5;font-size:13px}
-@media(max-width:760px){.queues{grid-template-columns:1fr}.patient{flex-wrap:wrap}.done{width:100%}}
+@media(max-width:1050px){.layout{grid-template-columns:1fr}.history-list{max-height:280px}}
+@media(max-width:760px){.queues{grid-template-columns:1fr}.patient{flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -47,25 +47,33 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
   <div class="stat">Preferencial +80: <strong id="totalE">0</strong></div>
   <div class="stat">Total: <strong id="total">0</strong></div>
 </section>
-<section class="panel">
-  <button id="call">CHAMAR PRÓXIMO</button><br>
-  <button id="recall">Rechamar Atual</button>
-  <div id="pending">
-    <h2 id="pendingText"></h2>
-    <p>Direcionar paciente para qual guichê?</p>
-    <div class="guiches">
-      <button data-guiche="1">Guichê 1</button>
-      <button data-guiche="2">Guichê 2</button>
-      <button data-guiche="3">Guichê 3</button>
-    </div>
+<div class="layout">
+  <div>
+    <section class="panel">
+      <button id="call">CHAMAR PRÓXIMO</button><br>
+      <button id="recall">Rechamar Atual</button>
+      <div id="pending">
+        <h2 id="pendingText"></h2>
+        <p>Direcionar paciente para qual guichê?</p>
+        <div class="guiches">
+          <button data-guiche="1">Guichê 1</button>
+          <button data-guiche="2">Guichê 2</button>
+          <button data-guiche="3">Guichê 3</button>
+        </div>
+      </div>
+      <div id="status" role="status"></div>
+    </section>
+    <section class="queues">
+      <div class="queue"><div class="qtitle qE">Preferencial +80 (E)</div><div class="list" id="listE"></div></div>
+      <div class="queue"><div class="qtitle qP">Preferencial (P)</div><div class="list" id="listP"></div></div>
+      <div class="queue"><div class="qtitle qG">Normal (G)</div><div class="list" id="listG"></div></div>
+    </section>
   </div>
-  <div id="status" role="status"></div>
-</section>
-<section class="queues">
-  <div class="queue"><div class="qtitle qE">Preferencial +80 (E)</div><div class="list" id="listE"></div></div>
-  <div class="queue"><div class="qtitle qP">Preferencial (P)</div><div class="list" id="listP"></div></div>
-  <div class="queue"><div class="qtitle qG">Normal (G)</div><div class="list" id="listG"></div></div>
-</section>
+  <aside class="history">
+    <div class="history-title">Histórico de Atendimentos</div>
+    <div class="history-list" id="historyList"></div>
+  </aside>
+</div>
 <footer><button id="reset">Resetar Todas as Filas</button></footer>
 </main>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -91,7 +99,7 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
   const colors = {G:"#1677d2",P:"#dc3545",E:"#7B3FA1"};
 
   function initial() {
-    return {filas:{G:[],P:[],E:[]},contadores:{G:0,P:0,E:0},chamadas:[],atual:null,ultimaCategoriaPG:null};
+    return {filas:{G:[],P:[],E:[]},contadores:{G:0,P:0,E:0},chamadas:[],historico:[],atual:null,vezPG:"P"};
   }
   function normalize(s) {
     s = s || initial();
@@ -102,10 +110,40 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
       s.contadores[t] = Number(s.contadores[t]) || 0;
     });
     s.chamadas = Array.isArray(s.chamadas) ? s.chamadas : [];
-    s.ultimaCategoriaPG = s.ultimaCategoriaPG === "P" || s.ultimaCategoriaPG === "G" ? s.ultimaCategoriaPG : null;
+    s.historico = Array.isArray(s.historico) ? s.historico : [];
+    s.atual = s.atual || null;
+    s.vezPG = s.vezPG === "G" ? "G" : "P";
     return s;
   }
   function save(s) { return ref.set(s); }
+
+  function formatWait(createdAt) {
+    const start = new Date(createdAt || Date.now()).getTime();
+    let seconds = Math.max(0, Math.floor((Date.now() - start) / 1000));
+    const h = Math.floor(seconds / 3600);
+    seconds %= 3600;
+    const m = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return h > 0
+      ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`
+      : `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+  }
+
+  function formatDuration(seconds) {
+    seconds = Math.max(0, Number(seconds) || 0);
+    const h = Math.floor(seconds / 3600);
+    seconds %= 3600;
+    const m = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return h > 0
+      ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`
+      : `${String(m).padStart(2,"0")}:${String(sec).padStart(2,"0")}`;
+  }
+
+  function formatDate(iso) {
+    if (!iso) return "--";
+    return new Date(iso).toLocaleString("pt-BR", {day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  }
 
   function drawQueue(type) {
     const el = $("list"+type);
@@ -122,14 +160,30 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
       const row = document.createElement("div"); row.className = "patient";
       const info = document.createElement("div"); info.className = "info";
       const name = document.createElement("div"); name.className = "pname"; name.textContent = p.nome;
-      const ticket = document.createElement("div"); ticket.className = "ticket";
-      ticket.style.color = colors[type]; ticket.textContent = p.senha;
-      info.append(name,ticket);
-      const done = document.createElement("button"); done.className = "done"; done.textContent = "✓ Atendido";
-      done.addEventListener("click", () => attend(type,p.senha));
-      row.append(info,done); el.appendChild(row);
+      const ticket = document.createElement("div"); ticket.className = "ticket"; ticket.style.color = colors[type]; ticket.textContent = p.senha;
+      const wait = document.createElement("div"); wait.className = "wait";
+      wait.innerHTML = `⏱ Tempo de espera: <strong data-wait-created="${p.criadoEm || ""}">${formatWait(p.criadoEm)}</strong>`;
+      info.append(name,ticket,wait);
+      row.append(info); el.appendChild(row);
     });
   }
+
+  function drawHistory() {
+    const el = $("historyList");
+    el.replaceChildren();
+    if (!state.historico.length) {
+      const empty = document.createElement("div"); empty.className = "history-empty"; empty.textContent = "Nenhuma senha chamada ainda."; el.appendChild(empty); return;
+    }
+    state.historico.forEach(item => {
+      const row = document.createElement("div"); row.className = "history-item";
+      const ticket = document.createElement("div"); ticket.className = "history-ticket"; ticket.style.color = colors[item.tipo] || "#172b4d"; ticket.textContent = item.senha;
+      const name = document.createElement("div"); name.className = "history-name"; name.textContent = item.nome || "Paciente";
+      const meta = document.createElement("div"); meta.className = "history-meta";
+      meta.innerHTML = `Guichê ${item.guiche || "--"}<br>Chamado: ${formatDate(item.chamadaEm)}<br>Espera: <strong>${formatDuration(item.tempoEsperaSegundos)}</strong>`;
+      row.append(ticket,name,meta); el.appendChild(row);
+    });
+  }
+
 
   function render() {
     if (!state) return;
@@ -142,42 +196,22 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
     $("recall").disabled = !state.atual;
     $("pending").style.display = pending ? "block" : "none";
     $("pendingText").textContent = pending ? `${pending.senha} — ${pending.nome} (${labels[pending.tipo]})` : "";
+    drawHistory();
   }
 
-  // Escolhe a categoria: E sempre tem prioridade máxima.
-  // Entre P e G, alterna sem usar tempo de espera; E não altera a vez do ciclo.
-  function proximaCategoria(s) {
+  function getNextType(s) {
     if (s.filas.E.length > 0) return "E";
-
-    const primeiraOpcao = s.ultimaCategoriaPG === "P" ? "G" : "P";
-    const segundaOpcao = primeiraOpcao === "P" ? "G" : "P";
-
-    if (s.filas[primeiraOpcao].length > 0) return primeiraOpcao;
-    if (s.filas[segundaOpcao].length > 0) return segundaOpcao;
-    return null;
+    const preferred = s.vezPG === "G" ? ["G","P"] : ["P","G"];
+    return preferred.find(t => s.filas[t].length) || null;
   }
 
-  async function attend(type, ticket) {
-    if (pending) { $("status").textContent = "Conclua o direcionamento atual primeiro."; return; }
-    if (!confirm(`Confirmar atendimento da senha ${ticket}?`)) return;
-    try {
-      let found = false;
-      await ref.transaction(raw => {
-        const s = normalize(raw);
-        const i = s.filas[type].findIndex(p=>p.senha===ticket);
-        if (i < 0) return;
-        s.filas[type].splice(i,1); found = true; return s;
-      });
-      $("status").textContent = found ? `Atendimento confirmado: ${ticket}.` : `A senha ${ticket} não está mais na fila.`;
-    } catch(e) { $("status").textContent = "Falha ao atualizar o banco."; console.error(e); }
-  }
 
   $("call").addEventListener("click", () => {
     if (!state || pending) return;
-    const type = proximaCategoria(state);
+    const type = getNextType(state);
     if (!type) { $("status").textContent = "Não há pacientes aguardando."; return; }
     pending = {...state.filas[type][0],tipo:type};
-    $("status").textContent = "Selecione o guichê para concluir a chamada.";
+    $("status").textContent = "Selecione o guichê para realizar a chamada.";
     render();
   });
 
@@ -192,13 +226,32 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
         const i = s.filas[p.tipo].findIndex(x=>x.senha===p.senha);
         if (i < 0) return;
         const [patient] = s.filas[p.tipo].splice(i,1);
-        // Atualiza a alternância apenas quando P ou G é efetivamente chamada.
-        // Uma chamada E mantém intacta a próxima vez entre P e G.
-        if (p.tipo === "P" || p.tipo === "G") s.ultimaCategoriaPG = p.tipo;
-        const call = {...patient,guiche,chamadaEm:new Date().toISOString()};
+        const chamadaEm = new Date().toISOString();
+        const criadoEm = patient.criadoEm || chamadaEm;
+        const tempoEsperaSegundos = Math.max(
+          0,
+          Math.floor((new Date(chamadaEm).getTime() - new Date(criadoEm).getTime()) / 1000)
+        );
+
+        const call = {
+          ...patient,
+          guiche,
+          chamadaEm,
+          tempoEsperaSegundos
+        };
+
         s.atual = call;
         s.chamadas.unshift(call);
         s.chamadas = s.chamadas.slice(0,3);
+
+        // P e G alternam; E não altera a vez do ciclo P/G.
+        if (p.tipo === "P") s.vezPG = "G";
+        if (p.tipo === "G") s.vezPG = "P";
+
+        // Ao ser chamado, sai da fila e entra imediatamente no histórico.
+        s.historico.unshift(call);
+        s.historico = s.historico.slice(0,30);
+
         committed = true;
         return s;
       });
@@ -206,7 +259,7 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
     } catch(e) { $("status").textContent = "Erro ao registrar a chamada."; console.error(e); }
     render();
   }));
-
+ 
   $("recall").addEventListener("click", async () => {
     if (!state || !state.atual) return;
     try {
@@ -227,6 +280,12 @@ footer{text-align:center;margin-top:28px}#reset{background:transparent;color:#89
     catch(e) { $("status").textContent = "Erro ao resetar."; }
     render();
   });
+
+  setInterval(() => {
+    document.querySelectorAll("[data-wait-created]").forEach(el => {
+      el.textContent = formatWait(el.dataset.waitCreated);
+    });
+  }, 1000);
 
   ref.on("value", snap => { state = normalize(snap.val()); render(); },
     err => { $("status").textContent = "Erro de conexão com o banco: " + err.message; });
